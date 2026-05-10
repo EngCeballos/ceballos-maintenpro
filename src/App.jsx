@@ -547,24 +547,43 @@ function LoginPage({onLogin}) {
     { email:"admin@ceballos.com",    senha:"admin123",    perfil:"admin",    nome:"Eng. Sergio Cardoso",  pedreira_id:null, pedreira_nome:"Todas" },
     { email:"gerente@pedreira1.com", senha:"gerente123",  perfil:"gerente",  nome:"Gerente Teste 01",     pedreira_id:"p1", pedreira_nome:"Pedreira Teste 01" },
     { email:"operador@pedreira1.com",senha:"operador123", perfil:"operador", nome:"Operador Teste 01",    pedreira_id:"p1", pedreira_nome:"Pedreira Teste 01" },
+    // Usuarios cadastrados pelo admin ficam aqui via localStorage
+    ...(()=>{ try{ return JSON.parse(localStorage.getItem("maintenpro_users")||"[]"); }catch{ return []; } })(),
   ];
 
   const handleLogin = async () => {
     if(!email||!senha) return;
     setLoading(true); setErro("");
-    // Tenta demo primeiro
-    const demo = DEMO_USERS.find(u=>u.email===email&&u.senha===senha);
-    if(demo){ setLoading(false); onLogin(demo); return; }
-    // Tenta Supabase
+
+    // 1. Verifica se email existe nos usuarios demo
+    const demoByEmail = DEMO_USERS.find(u=>u.email===email);
+    if(demoByEmail){
+      // Email encontrado — verifica senha
+      if(demoByEmail.senha===senha){
+        setLoading(false);
+        onLogin(demoByEmail);
+        return;
+      } else {
+        setErro("Senha incorreta. Verifique e tente novamente.");
+        setLoading(false);
+        return;
+      }
+    }
+
+    // 2. Tenta Supabase se nao for usuario demo
     try {
       const res = await sb.login(email,senha);
       if(res.access_token){
-        // busca dados do usuario
         const users = await sb.get("usuarios",`email=eq.${email}&select=*,pedreiras(nome)`);
         if(users[0]) onLogin({...users[0], pedreira_nome:users[0].pedreiras?.nome});
-        else setErro("Usuario nao encontrado.");
-      } else { setErro("Email ou senha incorretos."); }
-    } catch { setErro("Erro de conexao. Verifique sua internet."); }
+        else setErro("Usuario nao encontrado no sistema.");
+      } else {
+        setErro("Email ou senha incorretos. Verifique seus dados.");
+      }
+    } catch {
+      // Supabase nao configurado — usuario nao e demo
+      setErro("Email nao encontrado. Verifique o email digitado.");
+    }
     setLoading(false);
   };
 
@@ -677,6 +696,33 @@ function AdminUsuarios() {
 
   const cores = {admin:"#a855f7",gerente:C.yellow,operador:C.orange};
 
+  const pedreiras = {"p1":"Pedreira Teste 01","p2":"Dumar Pedreira Itariri"};
+
+  const cadastrar = () => {
+    if(!form.nome||!form.email||!form.senha||!form.pedreira) return;
+    // Salva no localStorage para persistir entre sessoes
+    const novoUser = {
+      id: Date.now().toString(36),
+      nome: form.nome,
+      email: form.email,
+      senha: form.senha,
+      perfil: form.perfil,
+      pedreira: pedreiras[form.pedreira]||form.pedreira,
+      pedreira_id: form.pedreira,
+      pedreira_nome: pedreiras[form.pedreira]||form.pedreira,
+      ativo: true,
+    };
+    const novosUsuarios = [...usuarios, novoUser];
+    setUsuarios(novosUsuarios);
+    // Salva no localStorage para login funcionar
+    try {
+      const saved = JSON.parse(localStorage.getItem("maintenpro_users")||"[]");
+      localStorage.setItem("maintenpro_users", JSON.stringify([...saved, novoUser]));
+    } catch {}
+    setForm({nome:"",email:"",senha:"",perfil:"operador",pedreira:""});
+    setModal(false);
+  };
+
   return(
     <div>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
@@ -726,7 +772,7 @@ function AdminUsuarios() {
           </div>
           <div style={{display:"flex",gap:8,marginTop:8}}>
             <Btn onClick={()=>setModal(false)} outline full>Cancelar</Btn>
-            <Btn onClick={()=>setModal(false)} full disabled={!form.nome||!form.email||!form.senha}><IcoPlus s={14}/> Cadastrar</Btn>
+            <Btn onClick={cadastrar} full disabled={!form.nome||!form.email||!form.senha||!form.pedreira}><IcoPlus s={14}/> Cadastrar</Btn>
           </div>
         </Modal>
       )}
@@ -1702,378 +1748,4 @@ _Ceballos MaintenPro_`;
             <Modal title="Configurar Alerta de Horímetro" onClose={()=>setModalAlerta(null)}>
               <div style={{padding:"8px 12px",background:"#0d1e2e",borderRadius:8,fontSize:13,color:C.muted,marginBottom:16}}>
                 <strong style={{color:C.orange}}>{britadoresCOnicos.find(e=>e.id===modalAlerta)?.nome}</strong>
-                <div style={{marginTop:4,fontSize:12}}>Defina quando alertar para troca do revestimento (manto e côncavo)</div>
-              </div>
-
-              <Fld label="Intervalo de troca (horas)">
-                <input type="number" style={C.input} placeholder="Ex: 400" value={alertaForm.intervalo}
-                  onChange={e=>setAlertaForm(p=>({...p,intervalo:e.target.value}))}/>
-                <div style={{fontSize:11,color:C.muted,marginTop:4}}>A cada quantas horas de operação trocar o revestimento</div>
-              </Fld>
-
-              <Fld label="Avisar com antecedência (horas)">
-                <input type="number" style={C.input} placeholder="Ex: 50" value={alertaForm.aviso}
-                  onChange={e=>setAlertaForm(p=>({...p,aviso:e.target.value}))}/>
-                <div style={{fontSize:11,color:C.muted,marginTop:4}}>Quantas horas antes do vencimento emitir o alerta amarelo</div>
-              </Fld>
-
-              <div style={{padding:"10px 12px",background:"#0a1520",borderRadius:8,fontSize:12,color:C.muted,marginBottom:16}}>
-                <div style={{fontWeight:700,color:C.text,marginBottom:4}}>Exemplo com os valores acima:</div>
-                <div>🟢 <strong>OK</strong> — abaixo de {Math.max(0,(parseInt(alertaForm.intervalo)||400)-(parseInt(alertaForm.aviso)||50))}h</div>
-                <div>🟡 <strong>Alerta</strong> — entre {Math.max(0,(parseInt(alertaForm.intervalo)||400)-(parseInt(alertaForm.aviso)||50))}h e {alertaForm.intervalo||400}h</div>
-                <div>🔴 <strong>Vencido</strong> — acima de {alertaForm.intervalo||400}h sem troca</div>
-              </div>
-
-              <div style={{display:"flex",gap:8}}>
-                <Btn onClick={()=>setModalAlerta(null)} outline full>Cancelar</Btn>
-                <Btn onClick={salvarAlerta} full disabled={!alertaForm.intervalo||!alertaForm.aviso}>
-                  <IcoCheck s={14}/> Salvar Alerta
-                </Btn>
-              </div>
-            </Modal>
-          )}
-        </>
-      )}
-
-      {aba==="graficos"&&(
-        <>
-          {/* Filtros */}
-          <Card style={{marginBottom:14}}>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:8}}>
-              <div>
-                <Lbl t="Periodo"/>
-                <select style={si} value={periodo} onChange={e=>setPeriodo(e.target.value)}>
-                  <option value="hoje">Hoje</option>
-                  <option value="sem">Ultimos 7 dias</option>
-                  <option value="mes">Mes atual</option>
-                  <option value="tudo">Tudo</option>
-                </select>
-              </div>
-              <div>
-                <Lbl t="Equipamento"/>
-                <select style={si} value={eqFiltro} onChange={e=>setEqFiltro(e.target.value)}>
-                  <option value="">Todos</option>
-                  {equipsUniq.map(id=><option key={id} value={id}>{id}</option>)}
-                </select>
-              </div>
-            </div>
-          </Card>
-
-          {/* Stats */}
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
-            {stats.map(([l,v,cor])=>(
-              <Card key={l}>
-                <div style={{fontSize:10,color:"#3a5a6a",marginBottom:3}}>{l.toUpperCase()}</div>
-                <div style={{fontSize:26,fontWeight:900,color:cor}}>
-                  {l==="Tempo Parado"?(v>=60?Math.floor(v/60)+"h "+v%60+"min":v+"min"):v}
-                </div>
-              </Card>
-            ))}
-          </div>
-
-          {/* Grafico ocorrencias */}
-          <Card style={{marginBottom:14}}>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
-              <div><div style={{fontSize:13,fontWeight:800}}>Ranking de Paradas</div><div style={{fontSize:11,color:C.muted}}>Equipamentos com mais ocorrencias</div></div>
-            </div>
-            <BarChart dados={dadosOcorr} cor={C.orange} unidade="n"/>
-          </Card>
-
-          {/* Grafico tempo */}
-          <Card style={{marginBottom:14}}>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
-              <div><div style={{fontSize:13,fontWeight:800}}>Tempo de Parada</div><div style={{fontSize:11,color:C.muted}}>Horas fora de operacao</div></div>
-            </div>
-            <BarChart dados={dadosParada} cor={C.yellow} unidade="h"/>
-          </Card>
-
-          {/* Grafico disponibilidade */}
-          <Card style={{marginBottom:14}}>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
-              <div><div style={{fontSize:13,fontWeight:800}}>Disponibilidade (%)</div><div style={{fontSize:11,color:C.muted}}>% do tempo em operacao</div></div>
-            </div>
-            <BarChart dados={dadosDisp} cor={C.green} unidade="n"/>
-          </Card>
-
-          {/* Comparativo mensal */}
-          <Card style={{marginBottom:14}}>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
-              <div><div style={{fontSize:13,fontWeight:800}}>Comparativo Mensal</div><div style={{fontSize:11,color:C.muted}}>Ultimos 6 meses</div></div>
-            </div>
-            <BarChart dados={dadosMensal} cor="#a855f7" unidade="n"/>
-          </Card>
-
-          {/* Botoes relatorio */}
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
-            <Btn onClick={enviarWhatsApp} color="#25D366" full>
-              <svg width={16} height={16} viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-              WhatsApp
-            </Btn>
-            <Btn onClick={imprimir} color="#1e3a5f" full>
-              <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-              Imprimir
-            </Btn>
-          </div>
-        </>
-      )}
-
-      {/* ── PECAS TROCADAS ── */}
-      {aba==="pecas"&&(
-        <>
-          <Card style={{marginBottom:14}}>
-            <Lbl t="Periodo"/>
-            <select style={si} value={periodo} onChange={e=>setPeriodo(e.target.value)}>
-              <option value="hoje">Hoje</option>
-              <option value="sem">Ultimos 7 dias</option>
-              <option value="mes">Mes atual</option>
-              <option value="tudo">Tudo</option>
-            </select>
-          </Card>
-
-          <Card style={{marginBottom:14}}>
-            <div style={{fontSize:13,fontWeight:800,marginBottom:14}}>Pecas Trocadas nas Transportadoras</div>
-            {pecas.length===0
-              ?<div style={{textAlign:"center",padding:20,color:C.muted}}>Sem dados de pecas no periodo</div>
-              :pecas.map(p=>(
-                <div key={p.label} style={{marginBottom:14}}>
-                  <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
-                    <span style={{fontSize:13,color:C.text,fontWeight:600}}>{p.label}</span>
-                    <span style={{fontSize:13,color:p.cor,fontWeight:800}}>{p.v} unid.</span>
-                  </div>
-                  <div style={{height:8,background:"#0d1820",borderRadius:4,overflow:"hidden"}}>
-                    <div style={{height:"100%",width:Math.min(100,(p.v/Math.max(...pecas.map(x=>x.v)))*100)+"%",background:p.cor,borderRadius:4}}/>
-                  </div>
-                </div>
-              ))
-            }
-          </Card>
-
-          {/* Pecas por equipamento */}
-          <Card>
-            <div style={{fontSize:13,fontWeight:800,marginBottom:12}}>Roletes por Transportadora</div>
-            {equipsUniq.filter(id=>id.startsWith("TC")).map(id=>{
-              const recs = recPeriodo.filter(r=>(r.eq_codigo||r.equipamento)===id);
-              const qtdRoletes = recs.reduce((a,r)=>{
-                if(!r.tcItens) return a;
-                return a + (parseInt(r.tcItens["rc"]?.qty)||0) + (parseInt(r.tcItens["rr"]?.qty)||0) + (parseInt(r.tcItens["ri"]?.qty)||0);
-              },0);
-              if(qtdRoletes===0) return null;
-              return(
-                <div key={id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 0",borderBottom:`1px solid ${C.border}`}}>
-                  <span style={{fontSize:13,color:C.text,fontWeight:600}}>{id}</span>
-                  <span style={{fontSize:13,color:C.orange,fontWeight:800}}>{qtdRoletes} roletes</span>
-                </div>
-              );
-            })}
-          </Card>
-        </>
-      )}
-
-      {/* ── HISTORICO POR EQUIPAMENTO ── */}
-      {aba==="historico"&&(
-        <>
-          <Card style={{marginBottom:14}}>
-            <Lbl t="Selecione o Equipamento"/>
-            <select style={si} value={eqDetalhe||""} onChange={e=>setEqDetalhe(e.target.value||null)}>
-              <option value="">Selecione...</option>
-              {[...new Set(records.map(r=>r.eq_codigo||r.equipamento))].filter(Boolean).sort().map(id=>(
-                <option key={id} value={id}>{id} — {records.find(r=>(r.eq_codigo||r.equipamento)===id)?.eq_nome||""}</option>
-              ))}
-            </select>
-          </Card>
-
-          {eqDetalhe&&(
-            <>
-              {/* Resumo do equipamento */}
-              <Card style={{marginBottom:14,borderColor:C.orange+"44"}}>
-                <div style={{fontSize:15,fontWeight:800,color:C.orange,marginBottom:10}}>{eqDetalhe}</div>
-                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
-                  <Kv l="MANUTENCOES" v={recEqDetalhe.length}/>
-                  <Kv l="CONCLUIDAS" v={recEqDetalhe.filter(r=>r.status==="Concluida").length}/>
-                  <Kv l="HORAS PARADO" v={(()=>{const m=recEqDetalhe.filter(r=>r.fim).reduce((a,r)=>a+Math.floor((new Date(r.fim)-new Date(r.inicio))/60000),0);return m>=60?Math.floor(m/60)+"h":m+"min";})()}/>
-                </div>
-              </Card>
-
-              {/* Historico completo */}
-              <div style={{fontSize:13,fontWeight:700,color:C.muted,marginBottom:10}}>HISTÓRICO COMPLETO ({recEqDetalhe.length} registros)</div>
-              {recEqDetalhe.length===0
-                ?<Card style={{textAlign:"center",padding:30}}><div style={{color:C.muted}}>Nenhum registro para este equipamento</div></Card>
-                :recEqDetalhe.map(r=><ManutCard key={r.id} rec={r} onFinish={fin} onDelete={del}/>)
-              }
-            </>
-          )}
-
-          {!eqDetalhe&&(
-            <Card style={{textAlign:"center",padding:44}}>
-              <div style={{fontSize:36,marginBottom:8}}>🔍</div>
-              <div style={{color:C.muted}}>Selecione um equipamento para ver o historico completo</div>
-            </Card>
-          )}
-        </>
-      )}
-
-      {/* ── LISTA GERAL ── */}
-      {aba==="lista"&&(
-        <>
-          <Card style={{marginBottom:14}}>
-            <input style={{...C.input,marginBottom:8}} placeholder="Buscar equipamento, tecnico..." value={fs.q} onChange={e=>setFs(p=>({...p,q:e.target.value}))}/>
-            <select style={si} value={fs.status} onChange={e=>setFs(p=>({...p,status:e.target.value}))}>
-              <option value="">Todos status</option>{Object.keys(COR_ST).map(s=><option key={s}>{s}</option>)}
-            </select>
-          </Card>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-            <span style={{fontSize:13,color:C.muted}}>{filtered.length} registro{filtered.length!==1?"s":""}</span>
-          </div>
-          {filtered.length===0
-            ?<Card style={{textAlign:"center",padding:44}}><div style={{fontSize:36,marginBottom:8}}>🔧</div><div style={{color:C.muted}}>Nenhum registro encontrado</div></Card>
-            :filtered.map(r=><ManutCard key={r.id} rec={r} onFinish={fin} onDelete={del}/>)
-          }
-        </>
-      )}
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════
-// APP PRINCIPAL
-// ═══════════════════════════════════════════════════════════
-export default function App() {
-  const [user, setUser]       = useState(null);
-  const [records, setRecords] = useState([]);
-  const [tab, setTab]         = useState("novo");
-  const [adminTab, setAdminTab] = useState("pedreiras");
-  const [tick, setTick]       = useState(new Date());
-
-  useEffect(()=>{ const t=setInterval(()=>setTick(new Date()),30000); return()=>clearInterval(t); },[]);
-
-  const logout = () => { setUser(null); setRecords([]); setTab("novo"); };
-
-  const finOp = (rec) => setRecords(records.map(r=>r.id===rec.id?{...r,fim:new Date().toISOString(),status:"Concluida"}:r));
-
-  const activeN = records.filter(r=>r.status==="Em Andamento").length;
-
-  if(!user) return <LoginPage onLogin={u=>{setUser(u);}}/>;
-
-  const tabB = (id,label,icon) => ({
-    flex:1,padding:"9px 6px",borderRadius:9,
-    background:tab===id?"#111e2e":"transparent",
-    border:tab===id?"1.5px solid #1e3044":"1.5px solid transparent",
-    color:tab===id?C.text:C.muted,fontSize:12,fontWeight:700,cursor:"pointer",
-    display:"flex",alignItems:"center",justifyContent:"center",gap:5,fontFamily:"inherit"
-  });
-
-  const adminTabB = (id,label) => ({
-    flex:1,padding:"8px 4px",borderRadius:8,
-    background:adminTab===id?C.orange+"22":"transparent",
-    border:adminTab===id?`1px solid ${C.orange}44`:"1px solid transparent",
-    color:adminTab===id?C.orange:C.muted,fontSize:11,fontWeight:700,cursor:"pointer",
-    fontFamily:"inherit",
-  });
-
-  return(
-    <div style={{minHeight:"100vh",background:C.bg,color:C.text,fontFamily:"'Barlow','Segoe UI',sans-serif",maxWidth:480,margin:"0 auto"}}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@700;800;900&display=swap');
-        *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-        select option{background:#0a1520;color:#deeaf5}
-        input[type="datetime-local"]::-webkit-calendar-picker-indicator{filter:invert(.55)}
-        ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:#1e3044;border-radius:3px}
-        @keyframes spin{to{transform:rotate(360deg)}}
-        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-        @keyframes fadeUp{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
-      `}</style>
-
-      {/* HEADER */}
-      <div style={{background:C.bg,borderBottom:`1px solid ${C.border}`,padding:"13px 15px 11px",position:"sticky",top:0,zIndex:99}}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:11}}>
-          <div>
-            <div style={{fontSize:20,fontWeight:900,fontFamily:"'Barlow Condensed',sans-serif",color:C.orange,letterSpacing:.5,lineHeight:1}}>CEBALLOS</div>
-            <div style={{fontSize:13,fontWeight:700,color:C.text,lineHeight:1.2}}>MaintenPro</div>
-            {user.pedreira_nome&&<div style={{fontSize:10,color:C.muted,marginTop:2}}>{user.pedreira_nome}</div>}
-          </div>
-          <div style={{textAlign:"right"}}>
-            <div style={{fontSize:11,color:C.muted}}>{tick.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit"})}</div>
-            <div style={{fontSize:13,fontWeight:700}}>{tick.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}</div>
-            <div style={{display:"flex",alignItems:"center",gap:6,justifyContent:"flex-end",marginTop:3}}>
-              <Tag label={user.perfil} color={user.perfil==="admin"?"#a855f7":user.perfil==="gerente"?C.yellow:C.orange}/>
-              {activeN>0&&<div style={{fontSize:11,color:C.orange,fontWeight:700,display:"flex",alignItems:"center",gap:3}}><span style={{width:5,height:5,borderRadius:"50%",background:C.orange,animation:"pulse 1.4s infinite"}}/>{activeN}</div>}
-            </div>
-          </div>
-        </div>
-
-        {/* USER INFO + LOGOUT */}
-        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"7px 10px",background:"#0a1520",borderRadius:10,border:`1px solid ${C.border}`,marginBottom:10}}>
-          <div style={{display:"flex",alignItems:"center",gap:8}}>
-            <div style={{width:28,height:28,borderRadius:"50%",background:C.orange+"22",border:`1.5px solid ${C.orange}44`,display:"flex",alignItems:"center",justifyContent:"center",color:C.orange}}>
-              <IcoUser s={13}/>
-            </div>
-            <div style={{fontSize:12,fontWeight:600,color:C.text}}>{user.nome}</div>
-          </div>
-          <button onClick={logout} style={{background:"transparent",border:"none",color:C.muted,cursor:"pointer",display:"flex",alignItems:"center",gap:4,fontSize:11,fontFamily:"inherit"}}>
-            <IcoLogout s={13}/> Sair
-          </button>
-        </div>
-
-        {/* TABS POR PERFIL */}
-        {user.perfil==="admin"&&(
-          <div style={{display:"flex",gap:4}}>
-            {[["pedreiras","Pedreiras",<IcoBuilding s={11}/>],["usuarios","Usuarios",<IcoUser s={11}/>],["equipamentos","Equipamentos",<IcoGear s={11}/>],["dashboard","Dashboard",<IcoChart s={11}/>]].map(([id,label,icon])=>(
-              <button key={id} onClick={()=>setAdminTab(id)} style={adminTabB(id,label)}>
-                {icon} {label}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {user.perfil==="gerente"&&(
-          <div style={{display:"flex",background:"#091420",borderRadius:10,padding:3,border:`1.5px solid ${C.border}`}}>
-            <button style={tabB("dashboard","Dashboard",<IcoChart s={13}/>)} onClick={()=>setTab("dashboard")}><IcoChart s={13}/>Dashboard</button>
-            <button style={tabB("historico","Historico",<IcoList s={13}/>)} onClick={()=>setTab("historico")}><IcoList s={13}/>Historico</button>
-          </div>
-        )}
-
-        {user.perfil==="operador"&&(
-          <div style={{display:"flex",background:"#091420",borderRadius:10,padding:3,border:`1.5px solid ${C.border}`}}>
-            <button style={tabB("novo","Novo Registro",<IcoPlus s={13}/>)} onClick={()=>setTab("novo")}><IcoPlus s={13}/>Novo Registro</button>
-            <button style={tabB("historico","Historico",<IcoList s={13}/>)} onClick={()=>setTab("historico")}><IcoList s={13}/>Historico ({records.length})</button>
-          </div>
-        )}
-      </div>
-
-      {/* CONTENT */}
-      <div style={{padding:"16px 14px",animation:"fadeUp .2s ease"}}>
-
-        {/* ADMIN */}
-        {user.perfil==="admin"&&(
-          <>
-            {adminTab==="pedreiras"&&<AdminPedreiras/>}
-            {adminTab==="usuarios"&&<AdminUsuarios/>}
-            {adminTab==="equipamentos"&&<AdminEquipamentos/>}
-            {adminTab==="dashboard"&&<Dashboard records={records} setRecords={setRecords} user={user}/>}
-          </>
-        )}
-
-        {/* GERENTE */}
-        {user.perfil==="gerente"&&(
-          <Dashboard records={records} setRecords={setRecords} user={user}/>
-        )}
-
-        {/* OPERADOR */}
-        {user.perfil==="operador"&&(
-          <>
-            {tab==="novo"&&<OperadorForm user={user} records={records} setRecords={setRecords}/>}
-            {tab==="historico"&&(
-              records.length===0
-                ?<Card style={{textAlign:"center",padding:44}}><div style={{fontSize:36,marginBottom:8}}>📋</div><div style={{color:C.muted}}>Nenhum registro ainda.</div></Card>
-                :records.map(r=><ManutCard key={r.id} rec={r} onFinish={finOp} onDelete={null}/>)
-            )}
-          </>
-        )}
-      </div>
-
-      <div style={{textAlign:"center",padding:"8px 16px 20px",fontSize:11,color:"#1a2e3e"}}>
-        Ceballos MaintenPro © 2025 — Eng. Sergio Cardoso
-      </div>
-    </div>
-  );
-}
+                <div style={{ma
