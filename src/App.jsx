@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 // SUPABASE CONFIG â€” substitua pela sua URL e chave anon
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 const SUPABASE_URL = "YOUR_SUPABASE_URL";
-const SUPABASE_KEY = "YOUR_SUPABASE_ANON_KEY";
+const SUPABASE_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndhaHJ4ZmtoaGpwY3Jyanh0Z25hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0OTMxNjEsImV4cCI6MjA5NDA2OTE2MX0.kEN0PcoFJIc3Wrjvu2qlGvFZ3fZjcxgNumQaTa5b-BE
 
 const sb = {
   headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}`, "Content-Type": "application/json", "Prefer": "return=representation" },
