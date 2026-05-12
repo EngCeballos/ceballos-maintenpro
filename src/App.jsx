@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// SUPABASE CONFIG â€” substitua pela sua URL e chave anon
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
+// SUPABASE CONFIG — substitua pela sua URL e chave anon
+// ═══════════════════════════════════════════════════════════
 const SUPABASE_URL = "https://wahrxfkhhjpcrrjxtgna.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndhaHJ4ZmtoaGpwY3Jyanh0Z25hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0OTMxNjEsImV4cCI6MjA5NDA2OTE2MX0.kEN0PcoFJIc3Wrjvu2qlGvFZ3fZjcxgNumQaTa5b-BE";
 
@@ -33,13 +33,13 @@ const sb = {
   },
 };
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// TIPOS DE EQUIPAMENTO E CHECKLISTS PADRÃƒO
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
+// TIPOS DE EQUIPAMENTO E CHECKLISTS PADRÃO
+// ═══════════════════════════════════════════════════════════
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// CHECKLISTS â€” PEDREIRA TESTE 01
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
+// CHECKLISTS — PEDREIRA TESTE 01
+// ═══════════════════════════════════════════════════════════
 
 // t: "c"=check simples, "q"=check+qtd, "op"=check+opcoes, "v"=check+valor numerico
 const TC_GRUPOS = [
@@ -70,14 +70,14 @@ const TC_GRUPOS = [
   ]},
   {grupo:"Redutora",itens:[
     {id:"red1",label:"Troca",t:"c"},
-    {id:"red2",label:"Alinhamento â€” polia",t:"c"},
-    {id:"red3",label:"Alinhamento â€” correia",t:"c"},
+    {id:"red2",label:"Alinhamento — polia",t:"c"},
+    {id:"red3",label:"Alinhamento — correia",t:"c"},
     {id:"red4",label:"Manutencao",t:"c"},
   ]},
   {grupo:"Motor",itens:[
     {id:"mot1",label:"Troca",t:"c"},
     {id:"mot2",label:"Manutencao",t:"c"},
-    {id:"mot3",label:"Alinhamento â€” polia",t:"c"},
+    {id:"mot3",label:"Alinhamento — polia",t:"c"},
   ]},
   {grupo:"Limpeza",itens:[
     {id:"lr",label:"Regulagem de raspador",t:"c"},
@@ -341,8 +341,8 @@ const BRT_GRUPOS = {
       {id:"lj_m4",label:"Virada da chapa de mandibula movel",t:"c"},
     ]},
     {grupo:"Placas Laterais (Cheek Plates)",itens:[
-      {id:"lj_cp1",label:"Troca da placa lateral â€” lado D",t:"c"},
-      {id:"lj_cp2",label:"Troca da placa lateral â€” lado E",t:"c"},
+      {id:"lj_cp1",label:"Troca da placa lateral — lado D",t:"c"},
+      {id:"lj_cp2",label:"Troca da placa lateral — lado E",t:"c"},
       {id:"lj_cp3",label:"Inspecao do desgaste das placas laterais",t:"c"},
     ]},
     {grupo:"Ajuste do CSS (Fechamento)",itens:[
@@ -382,21 +382,21 @@ const BRT_GRUPOS = {
     ]},
   ],
     C125:[
-    {grupo:"MandiÐ±ulas",itens:[
+    {grupo:"Mandiбulas",itens:[
       {id:"bm1",label:"Mandibula fixa",t:"op",ops:["Troca","Virada"]},
       {id:"bm2",label:"Mandibula movel",t:"op",ops:["Troca","Virada"]},
     ]},
     {grupo:"Fechamento",itens:[
       {id:"bf1",label:"Medicao do vao (polegadas)",t:"v",placeholder:"Ex: 8.5"},
-      {id:"bf2",label:"Calco das cunhas â€” Colocando",t:"c"},
-      {id:"bf3",label:"Calco das cunhas â€” Retirando",t:"c"},
-      {id:"bf4",label:"Calco das cunhas â€” Manutencao",t:"c"},
+      {id:"bf2",label:"Calco das cunhas — Colocando",t:"c"},
+      {id:"bf3",label:"Calco das cunhas — Retirando",t:"c"},
+      {id:"bf4",label:"Calco das cunhas — Manutencao",t:"c"},
     ]},
     {grupo:"Cunhas Laterais",itens:[
-      {id:"bc1",label:"Cunha superior â€” lado D",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
-      {id:"bc2",label:"Cunha superior â€” lado E",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
-      {id:"bc3",label:"Cunha inferior â€” lado D",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
-      {id:"bc4",label:"Cunha inferior â€” lado E",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
+      {id:"bc1",label:"Cunha superior — lado D",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
+      {id:"bc2",label:"Cunha superior — lado E",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
+      {id:"bc3",label:"Cunha inferior — lado D",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
+      {id:"bc4",label:"Cunha inferior — lado E",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
     ]},
     {grupo:"Abanadeira",itens:[
       {id:"ba1",label:"Abanadeira",t:"op",ops:["Troca","Alinhamento","Manutencao"]},
@@ -405,11 +405,11 @@ const BRT_GRUPOS = {
       {id:"bca1",label:"Calha superior",t:"op",ops:["Troca","Reaperto","Alinhamento","Manutencao"]},
       {id:"bca2",label:"Calha inferior",t:"op",ops:["Troca","Reaperto","Alinhamento","Manutencao"]},
     ]},
-    {grupo:"Calcos das MandiÐ±ulas",itens:[
-      {id:"bcm1",label:"Calco movel superior â€” Mandibula fixa",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
-      {id:"bcm2",label:"Calco movel superior â€” Mandibula movel",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
-      {id:"bcm3",label:"Calco fixo inferior â€” Mandibula fixa",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
-      {id:"bcm4",label:"Calco fixo inferior â€” Mandibula movel",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
+    {grupo:"Calcos das Mandiбulas",itens:[
+      {id:"bcm1",label:"Calco movel superior — Mandibula fixa",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
+      {id:"bcm2",label:"Calco movel superior — Mandibula movel",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
+      {id:"bcm3",label:"Calco fixo inferior — Mandibula fixa",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
+      {id:"bcm4",label:"Calco fixo inferior — Mandibula movel",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
     ]},
     {grupo:"Motor",itens:[
       {id:"bmo1",label:"Motor",t:"op",ops:["Alinhamento","Reaperto","Manutencao"]},
@@ -431,16 +431,16 @@ const TIPOS_EQ = ["Transportadora de Correia","Britador Conico","Britador de Man
 const TIPOS_MANUT = ["Manutencao Preventiva","Manutencao Corretiva","Manutencao Preditiva","Inspecao","Lubrificacao","Troca de Pecas","Ajuste / Regulagem","Emergencia"];
 const COR_ST = { "Em Andamento":"#FF6B2B", "Concluida":"#22C55E", "Aguardando":"#F59E0B" };
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // HELPERS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,5);
-const fmtT = iso => iso ? new Date(iso).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit",hour:"2-digit",minute:"2-digit"}) : "â€”";
-const fmtD = (s,e) => { if(!s) return "â€”"; const m=Math.floor((new Date(e||Date.now())-new Date(s))/60000); if(m<1) return "<1min"; return m<60?`${m}min`:`${Math.floor(m/60)}h ${m%60}min`; };
+const fmtT = iso => iso ? new Date(iso).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit",hour:"2-digit",minute:"2-digit"}) : "—";
+const fmtD = (s,e) => { if(!s) return "—"; const m=Math.floor((new Date(e||Date.now())-new Date(s))/60000); if(m<1) return "<1min"; return m<60?`${m}min`:`${Math.floor(m/60)}h ${m%60}min`; };
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // STYLES
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 const C = {
   bg:     "#060f18",
   card:   "#0a1520",
@@ -453,9 +453,9 @@ const C = {
   input:  { width:"100%", boxSizing:"border-box", padding:"11px 13px", borderRadius:10, border:"1.5px solid #1e3044", background:"#0a1520", color:"#deeaf5", fontSize:15, outline:"none", fontFamily:"inherit" },
 };
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // ICONS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 const p = (s=18) => ({width:s,height:s,viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round"});
 const IcoWrench  = ({s=16}) => <svg {...p(s)}><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>;
 const IcoChart   = ({s=16}) => <svg {...p(s)}><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>;
@@ -471,12 +471,12 @@ const IcoRef     = ({s=16}) => <svg {...p(s)}><polyline points="23 4 23 10 17 10
 const IcoTrash   = ({s=16}) => <svg {...p(s)}><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>;
 const IcoAlert   = ({s=16}) => <svg {...p(s)}><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>;
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // MINI COMPONENTS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 const Lbl = ({t}) => <div style={{fontSize:11,fontWeight:700,color:C.muted,letterSpacing:1,textTransform:"uppercase",marginBottom:6}}>{t}</div>;
 const Fld = ({label,children}) => <div style={{marginBottom:14}}><Lbl t={label}/>{children}</div>;
-const Kv  = ({l,v,hi}) => <div style={{background:"#091420",borderRadius:8,padding:"7px 10px"}}><div style={{fontSize:10,color:"#3a5a6a",marginBottom:2}}>{l}</div><div style={{fontSize:12,color:hi?C.orange:C.text,fontWeight:hi?700:500}}>{v||"â€”"}</div></div>;
+const Kv  = ({l,v,hi}) => <div style={{background:"#091420",borderRadius:8,padding:"7px 10px"}}><div style={{fontSize:10,color:"#3a5a6a",marginBottom:2}}>{l}</div><div style={{fontSize:12,color:hi?C.orange:C.text,fontWeight:hi?700:500}}>{v||"—"}</div></div>;
 const Box = ({on,color=C.orange,size=22}) => <div style={{width:size,height:size,borderRadius:6,flexShrink:0,border:on?`2px solid ${color}`:"2px solid #2a3f54",background:on?color:"transparent",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .15s"}}>{on&&<IcoCheck s={size-8}/>}</div>;
 const Tag = ({label,color=C.orange}) => <span style={{fontSize:11,padding:"2px 8px",borderRadius:20,background:color+"22",color,border:`1px solid ${color}44`,fontWeight:600}}>{label}</span>;
 const Spin = () => <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" style={{animation:"spin .7s linear infinite"}}><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>;
@@ -510,9 +510,9 @@ const Modal = ({title,onClose,children}) => (
   </div>
 );
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // BAR CHART
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 const BarChart = ({dados,cor,unidade}) => {
   if(!dados?.length) return <div style={{textAlign:"center",padding:20,color:C.muted,fontSize:13}}>Sem dados no periodo</div>;
   const max = Math.max(...dados.map(d=>d.v),1);
@@ -533,9 +533,9 @@ const BarChart = ({dados,cor,unidade}) => {
   );
 };
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // LOGIN PAGE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 function LoginPage({onLogin}) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -558,7 +558,7 @@ function LoginPage({onLogin}) {
     // 1. Verifica se email existe nos usuarios demo
     const demoByEmail = DEMO_USERS.find(u=>u.email===email);
     if(demoByEmail){
-      // Email encontrado â€” verifica senha
+      // Email encontrado — verifica senha
       if(demoByEmail.senha===senha){
         setLoading(false);
         onLogin(demoByEmail);
@@ -581,7 +581,7 @@ function LoginPage({onLogin}) {
         setErro("Email ou senha incorretos. Verifique seus dados.");
       }
     } catch {
-      // Supabase nao configurado â€” usuario nao e demo
+      // Supabase nao configurado — usuario nao e demo
       setErro("Email nao encontrado. Verifique o email digitado.");
     }
     setLoading(false);
@@ -597,7 +597,7 @@ function LoginPage({onLogin}) {
           </div>
           <div style={{fontSize:26,fontWeight:900,fontFamily:"'Barlow Condensed',sans-serif",color:C.orange,letterSpacing:.5}}>CEBALLOS</div>
           <div style={{fontSize:18,fontWeight:700,color:C.text,marginTop:-4}}>MaintenPro</div>
-          <div style={{fontSize:12,color:C.muted,marginTop:6}}>Sistema de Controle de ManutenÃ§Ã£o</div>
+          <div style={{fontSize:12,color:C.muted,marginTop:6}}>Sistema de Controle de Manutenção</div>
         </div>
 
         <Card>
@@ -605,7 +605,7 @@ function LoginPage({onLogin}) {
             <input style={C.input} type="email" placeholder="seu@email.com" value={email} onChange={e=>setEmail(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleLogin()}/>
           </Fld>
           <Fld label="Senha">
-            <input style={C.input} type="password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" value={senha} onChange={e=>setSenha(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleLogin()}/>
+            <input style={C.input} type="password" placeholder="••••••••" value={senha} onChange={e=>setSenha(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleLogin()}/>
           </Fld>
           {erro && <div style={{display:"flex",gap:6,padding:"8px 12px",background:"#160808",border:"1px solid #3a1010",borderRadius:8,marginBottom:12,fontSize:12,color:"#ef4444"}}><IcoAlert s={14}/>{erro}</div>}
           <Btn onClick={handleLogin} disabled={!email||!senha||loading} full>{loading?<><Spin/>Entrando...</>:"Entrar"}</Btn>
@@ -625,9 +625,9 @@ function LoginPage({onLogin}) {
   );
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // ADMIN - GERENCIAR PEDREIRAS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 function AdminPedreiras() {
   const [pedreiras, setPedreiras] = useState([
     {id:"p1",nome:"Pedreira Teste 01",localizacao:"A definir",ativa:true,operadores:0,gerentes:0},
@@ -670,7 +670,7 @@ function AdminPedreiras() {
       {modal&&(
         <Modal title="Nova Pedreira" onClose={()=>setModal(false)}>
           <Fld label="Nome da Pedreira *"><input style={C.input} placeholder="Ex: Pedreira Gamma" value={form.nome} onChange={e=>set("nome",e.target.value)}/></Fld>
-          <Fld label="LocalizaÃ§Ã£o"><input style={C.input} placeholder="Ex: Belo Horizonte, MG" value={form.localizacao} onChange={e=>set("localizacao",e.target.value)}/></Fld>
+          <Fld label="Localização"><input style={C.input} placeholder="Ex: Belo Horizonte, MG" value={form.localizacao} onChange={e=>set("localizacao",e.target.value)}/></Fld>
           <div style={{display:"flex",gap:8,marginTop:8}}>
             <Btn onClick={()=>setModal(false)} outline full>Cancelar</Btn>
             <Btn onClick={adicionar} full disabled={!form.nome}><IcoPlus s={14}/> Cadastrar</Btn>
@@ -681,9 +681,9 @@ function AdminPedreiras() {
   );
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // ADMIN - GERENCIAR USUARIOS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 function AdminUsuarios() {
   const [usuarios, setUsuarios] = useState([
     {id:"u1",nome:"Eng. Sergio Cardoso",email:"admin@ceballos.com",perfil:"admin",pedreira:"Todas",ativo:true},
@@ -726,7 +726,7 @@ function AdminUsuarios() {
   return(
     <div>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
-        <div><div style={{fontSize:11,color:C.muted,letterSpacing:1}}>ADMINISTRADOR</div><div style={{fontSize:18,fontWeight:800}}>UsuÃ¡rios do Sistema</div></div>
+        <div><div style={{fontSize:11,color:C.muted,letterSpacing:1}}>ADMINISTRADOR</div><div style={{fontSize:18,fontWeight:800}}>Usuários do Sistema</div></div>
         <Btn onClick={()=>setModal(true)} sm><IcoPlus s={14}/> Novo</Btn>
       </div>
 
@@ -751,7 +751,7 @@ function AdminUsuarios() {
       ))}
 
       {modal&&(
-        <Modal title="Novo UsuÃ¡rio" onClose={()=>setModal(false)}>
+        <Modal title="Novo Usuário" onClose={()=>setModal(false)}>
           <Fld label="Nome *"><input style={C.input} placeholder="Nome completo" value={form.nome} onChange={e=>set("nome",e.target.value)}/></Fld>
           <Fld label="Email *"><input style={C.input} type="email" placeholder="email@exemplo.com" value={form.email} onChange={e=>set("email",e.target.value)}/></Fld>
           <Fld label="Senha *"><input style={C.input} type="password" placeholder="Senha inicial" value={form.senha} onChange={e=>set("senha",e.target.value)}/></Fld>
@@ -780,9 +780,9 @@ function AdminUsuarios() {
   );
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // ADMIN - GERENCIAR EQUIPAMENTOS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 function AdminEquipamentos() {
   const [equips, setEquips] = useState([
     {id:"e1", codigo:"TC01",    nome:"TC 01 - Primario",               tipo:"Transportadora de Correia", pedreira:"Pedreira Teste 01", ativo:true},
@@ -906,9 +906,9 @@ function AdminEquipamentos() {
   );
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // OPERATOR - FORM
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 const DEMO_EQUIPS = [
   {id:"e1", codigo:"TC01",    nome:"TC 01 - Primario",                tipo:"Transportadora de Correia"},
   {id:"e2", codigo:"TC02",    nome:"TC 02 - Rejeito",                 tipo:"Transportadora de Correia"},
@@ -942,7 +942,7 @@ const DEMO_EQUIPS = [
 ];
 
 
-// â”€â”€ FOTO UPLOAD â”€â”€
+// ── FOTO UPLOAD ──
 function FotoUpload({fotos, onChange}) {
   const inputRef = React.useRef();
 
@@ -966,9 +966,9 @@ function FotoUpload({fotos, onChange}) {
 
   return (
     <div style={{marginBottom:16}}>
-      <Lbl t="Fotos do ServiÃ§o"/>
+      <Lbl t="Fotos do Serviço"/>
       
-      {/* BotÃ£o adicionar foto */}
+      {/* Botão adicionar foto */}
       <div
         onClick={() => inputRef.current.click()}
         style={{
@@ -1035,7 +1035,7 @@ function FotoUpload({fotos, onChange}) {
   );
 }
 
-// â”€â”€ CHECKLIST COMPONENT â”€â”€
+// ── CHECKLIST COMPONENT ──
 function ChecklistGrupos({grupos, itens, onChange}) {
   const total = Object.values(itens).filter(v=>v.on).length;
   const toggle = id => { const cur=itens[id]||{on:false,qty:"",op:"",val:""}; onChange({...itens,[id]:{...cur,on:!cur.on}}); };
@@ -1096,12 +1096,12 @@ function ChecklistPeneira({equipCodigo, itens, onChange}) {
   const cfgKey = Object.keys(PEN_CONFIG).find(k=>equipCodigo===k||equipCodigo==="PEN0"+k.slice(-1));
   const cfg = PEN_CONFIG[equipCodigo] || PEN_CONFIG[cfgKey];
   if(!cfg) return null;
-  const deckGrupo = {grupo:"Troca de Telas", itens:cfg.decks.map(d=>({id:d.id,label:d.label+" â€” "+d.info,t:"q"}))};
+  const deckGrupo = {grupo:"Troca de Telas", itens:cfg.decks.map(d=>({id:d.id,label:d.label+" — "+d.info,t:"q"}))};
   const allGrupos = [deckGrupo,...PEN_GRUPOS_FIXOS];
   return(
     <div>
       <div style={{marginBottom:8,padding:"7px 11px",background:"#0d1e2e",borderRadius:8,fontSize:12,color:"#5a8a9a",display:"flex",gap:6,alignItems:"center"}}>
-        <span style={{color:C.orange,fontWeight:800}}>{cfg.nome}</span><span>â€”</span><span>{cfg.material}</span>
+        <span style={{color:C.orange,fontWeight:800}}>{cfg.nome}</span><span>—</span><span>{cfg.material}</span>
       </div>
       <ChecklistGrupos grupos={allGrupos} itens={itens} onChange={onChange}/>
     </div>
@@ -1109,7 +1109,7 @@ function ChecklistPeneira({equipCodigo, itens, onChange}) {
 }
 
 
-// â”€â”€ CATEGORY ICONS â”€â”€
+// ── CATEGORY ICONS ──
 function CatIcon({tipo, ativo}) {
   const cor = ativo ? "#FF6B2B" : "#4a6a7a";
   const s = 38;
@@ -1263,7 +1263,7 @@ function OperadorForm({user, records, setRecords}) {
   return(
     <div style={{paddingBottom:100}}>
 
-      {/* STEP 1 â€” Categoria */}
+      {/* STEP 1 — Categoria */}
       <div style={{marginBottom:16}}>
         <Lbl t="1. Selecione a Categoria *"/>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
@@ -1286,7 +1286,7 @@ function OperadorForm({user, records, setRecords}) {
         </div>
       </div>
 
-      {/* STEP 2 â€” Equipamento */}
+      {/* STEP 2 — Equipamento */}
       {categoria && (
         <div style={{marginBottom:16,animation:"fadeUp .2s ease"}}>
           <Lbl t="2. Selecione o Equipamento *"/>
@@ -1317,7 +1317,7 @@ function OperadorForm({user, records, setRecords}) {
       )}
 
       {/* Info do equipamento selecionado */}
-      {eq&&<div style={{marginBottom:10,padding:"8px 12px",background:"#0d1e2e",borderRadius:8,fontSize:12,color:"#5a8a9a",display:"flex",gap:7,alignItems:"center"}}><span style={{color:C.orange,fontWeight:800}}>{eq.codigo}</span><span>â€”</span><span style={{color:C.text,fontWeight:600}}>{eq.nome}</span></div>}
+      {eq&&<div style={{marginBottom:10,padding:"8px 12px",background:"#0d1e2e",borderRadius:8,fontSize:12,color:"#5a8a9a",display:"flex",gap:7,alignItems:"center"}}><span style={{color:C.orange,fontWeight:800}}>{eq.codigo}</span><span>—</span><span style={{color:C.text,fontWeight:600}}>{eq.nome}</span></div>}
 
       {/* Alerta de horimetro para britadores conicos */}
       {eq&&eq.tipo==="Britador Conico"&&(()=>{
@@ -1338,9 +1338,9 @@ function OperadorForm({user, records, setRecords}) {
               <IcoAlert s={16}/>
               <div>
                 <div style={{fontSize:13,fontWeight:700,color:cor}}>
-                  {vencido?`âš ï¸ REVESTIMENTO VENCIDO! ${Math.abs(Math.round(faltam))}h em atraso`:`âš ï¸ Trocar revestimento em ${Math.round(faltam)}h`}
+                  {vencido?`⚠️ REVESTIMENTO VENCIDO! ${Math.abs(Math.round(faltam))}h em atraso`:`⚠️ Trocar revestimento em ${Math.round(faltam)}h`}
                 </div>
-                <div style={{fontSize:11,color:C.muted,marginTop:2}}>Manto e cÃ´ncavo â€” verificar na gerÃªncia</div>
+                <div style={{fontSize:11,color:C.muted,marginTop:2}}>Manto e côncavo — verificar na gerência</div>
               </div>
             </div>
           );
@@ -1392,9 +1392,9 @@ function OperadorForm({user, records, setRecords}) {
   );
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // MANUTENCAO CARD
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 function ManutCard({rec, onFinish, onDelete}) {
   const cor = COR_ST[rec.status]||C.orange;
   const ativo = rec.status==="Em Andamento";
@@ -1425,7 +1425,7 @@ function ManutCard({rec, onFinish, onDelete}) {
 
       {rec.fotos&&rec.fotos.length>0&&(
         <div style={{marginBottom:10}}>
-          <div style={{fontSize:10,color:"#3a5a6a",letterSpacing:.5,marginBottom:6}}>FOTOS DO SERVIÃ‡O ({rec.fotos.length})</div>
+          <div style={{fontSize:10,color:"#3a5a6a",letterSpacing:.5,marginBottom:6}}>FOTOS DO SERVIÇO ({rec.fotos.length})</div>
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:6}}>
             {rec.fotos.map(foto=>(
               <div key={foto.id} style={{borderRadius:8,overflow:"hidden",border:`1px solid ${C.border}`}}>
@@ -1445,9 +1445,9 @@ function ManutCard({rec, onFinish, onDelete}) {
   );
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // DASHBOARD GERENCIA / ADMIN
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 function Dashboard({records, setRecords, user}) {
   const now = new Date();
   const [aba, setAba]         = useState("graficos");
@@ -1456,7 +1456,7 @@ function Dashboard({records, setRecords, user}) {
   const [fs, setFs]           = useState({q:"",status:""});
   const [eqDetalhe, setEqDetalhe] = useState(null);
 
-  // â”€â”€ Alertas de Horimetro â”€â”€
+  // ── Alertas de Horimetro ──
   const SK_ALERTAS = "maintenpro_alertas_v1";
   const [alertas, setAlertas] = useState(()=>{
     try{const r=localStorage.getItem(SK_ALERTAS);return r?JSON.parse(r):{};}catch{return{};}
@@ -1471,7 +1471,7 @@ function Dashboard({records, setRecords, user}) {
     setModalAlerta(null);
   };
 
-  // Britadores conicos â€” calcular horimetro atual e status do alerta
+  // Britadores conicos — calcular horimetro atual e status do alerta
   const britadoresCOnicos = DEMO_EQUIPS.filter(e=>e.tipo==="Britador Conico");
   const getStatusAlerta = (eqId) => {
     const cfg = alertas[eqId];
@@ -1488,12 +1488,12 @@ function Dashboard({records, setRecords, user}) {
     const faltam = cfg.intervalo - hUsado;
     if(faltam<=0)       return {nivel:"vencido",  cor:"#ef4444", texto:`VENCIDO! ${Math.abs(Math.round(faltam))}h atraso`, hUsado, faltam, pct:100};
     if(faltam<=cfg.aviso) return {nivel:"alerta",   cor:C.yellow,  texto:`Trocar em ${Math.round(faltam)}h`, hUsado, faltam, pct};
-    return                       {nivel:"ok",       cor:C.green,   texto:`OK â€” ${Math.round(faltam)}h restantes`, hUsado, faltam, pct};
+    return                       {nivel:"ok",       cor:C.green,   texto:`OK — ${Math.round(faltam)}h restantes`, hUsado, faltam, pct};
   };
 
   const alertasAtivos = britadoresCOnicos.map(e=>({...e, status:getStatusAlerta(e.id)})).filter(e=>e.status&&e.status.nivel!=="ok");
 
-  // â”€â”€ Filtro por periodo â”€â”€
+  // ── Filtro por periodo ──
   const recPeriodo = records.filter(r=>{
     if(!r.criadoEm) return false;
     const d = new Date(r.criadoEm);
@@ -1506,11 +1506,11 @@ function Dashboard({records, setRecords, user}) {
   const recFiltrado = eqFiltro ? recPeriodo.filter(r=>(r.eq_codigo||r.equipamento)===eqFiltro) : recPeriodo;
   const equipsUniq  = [...new Set(recPeriodo.map(r=>r.eq_codigo||r.equipamento))].filter(Boolean);
 
-  // â”€â”€ Graficos â”€â”€
+  // ── Graficos ──
   const dadosOcorr  = equipsUniq.map(id=>({id,nome:id,v:recPeriodo.filter(r=>(r.eq_codigo||r.equipamento)===id).length})).sort((a,b)=>b.v-a.v).slice(0,8);
   const dadosParada = equipsUniq.map(id=>{const mins=recPeriodo.filter(r=>(r.eq_codigo||r.equipamento)===id&&r.inicio&&r.fim).reduce((a,r)=>a+Math.floor((new Date(r.fim)-new Date(r.inicio))/60000),0);return{id,nome:id,v:mins};}).filter(d=>d.v>0).sort((a,b)=>b.v-a.v).slice(0,8);
 
-  // â”€â”€ Disponibilidade (horas disponiveis - horas paradas / horas disponiveis * 100) â”€â”€
+  // ── Disponibilidade (horas disponiveis - horas paradas / horas disponiveis * 100) ──
   const horasNoPeriodo = periodo==="hoje"?24:periodo==="sem"?168:periodo==="mes"?new Date(now.getFullYear(),now.getMonth()+1,0).getDate()*24:8760;
   const dadosDisp = equipsUniq.map(id=>{
     const mins = recPeriodo.filter(r=>(r.eq_codigo||r.equipamento)===id&&r.inicio&&r.fim).reduce((a,r)=>a+Math.floor((new Date(r.fim)-new Date(r.inicio))/60000),0);
@@ -1518,7 +1518,7 @@ function Dashboard({records, setRecords, user}) {
     return{id,nome:id,v:Math.round(disp)};
   }).sort((a,b)=>a.v-b.v).slice(0,8);
 
-  // â”€â”€ Comparativo mes a mes (ultimos 6 meses) â”€â”€
+  // ── Comparativo mes a mes (ultimos 6 meses) ──
   const meses = Array.from({length:6},(_,i)=>{
     const d = new Date(now.getFullYear(),now.getMonth()-5+i,1);
     return{label:d.toLocaleDateString("pt-BR",{month:"short",year:"2-digit"}),mes:d.getMonth(),ano:d.getFullYear()};
@@ -1529,7 +1529,7 @@ function Dashboard({records, setRecords, user}) {
     v:records.filter(r=>r.criadoEm&&new Date(r.criadoEm).getMonth()===m.mes&&new Date(r.criadoEm).getFullYear()===m.ano).length
   }));
 
-  // â”€â”€ Pecas trocadas â”€â”€
+  // ── Pecas trocadas ──
   const contarPeca = (tipo) => {
     let total = 0;
     recPeriodo.forEach(r=>{
@@ -1552,7 +1552,7 @@ function Dashboard({records, setRecords, user}) {
     {label:"Tambores do Pe",      v:contarPeca("tp"),  cor:"#06b6d4"},
   ].filter(p=>p.v>0);
 
-  // â”€â”€ Stats gerais â”€â”€
+  // ── Stats gerais ──
   const totalMins = recFiltrado.filter(r=>r.fim).reduce((a,r)=>a+Math.floor((new Date(r.fim)-new Date(r.inicio))/60000),0);
   const stats=[
     ["Total",recFiltrado.length,"#7a9bb5"],
@@ -1575,31 +1575,31 @@ function Dashboard({records, setRecords, user}) {
     </button>
   );
 
-  // â”€â”€ Gerar resumo WhatsApp â”€â”€
+  // ── Gerar resumo WhatsApp ──
   const enviarWhatsApp = () => {
     const hoje = now.toLocaleDateString("pt-BR");
     const ativos = records.filter(r=>r.status==="Em Andamento");
-    let msg = `ðŸ”§ *RELATÃ“RIO DE MANUTENÃ‡ÃƒO*
+    let msg = `🔧 *RELATÓRIO DE MANUTENÇÃO*
 `;
-    msg += `ðŸ“… ${hoje}
+    msg += `📅 ${hoje}
 `;
-    msg += `â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+    msg += `━━━━━━━━━━━━━━━━━━
 `;
-    msg += `ðŸ“Š *RESUMO DO PERÃODO*
+    msg += `📊 *RESUMO DO PERÍODO*
 `;
-    msg += `â€¢ Total de registros: ${recFiltrado.length}
+    msg += `• Total de registros: ${recFiltrado.length}
 `;
-    msg += `â€¢ Em andamento: ${recFiltrado.filter(r=>r.status==="Em Andamento").length}
+    msg += `• Em andamento: ${recFiltrado.filter(r=>r.status==="Em Andamento").length}
 `;
-    msg += `â€¢ ConcluÃ­das: ${recFiltrado.filter(r=>r.status==="Concluida").length}
+    msg += `• Concluídas: ${recFiltrado.filter(r=>r.status==="Concluida").length}
 `;
-    msg += `â€¢ Tempo total parado: ${totalMins>=60?Math.floor(totalMins/60)+"h "+totalMins%60+"min":totalMins+"min"}
+    msg += `• Tempo total parado: ${totalMins>=60?Math.floor(totalMins/60)+"h "+totalMins%60+"min":totalMins+"min"}
 `;
     if(ativos.length>0){
       msg += `
-âš ï¸ *EM ANDAMENTO AGORA*
+⚠️ *EM ANDAMENTO AGORA*
 `;
-      ativos.forEach(r=>{ msg += `â€¢ ${r.eq_codigo||""} - ${r.eq_nome||""} (${r.operador||""})
+      ativos.forEach(r=>{ msg += `• ${r.eq_codigo||""} - ${r.eq_nome||""} (${r.operador||""})
 `; });
     }
     msg += `
@@ -1607,7 +1607,7 @@ _Ceballos MaintenPro_`;
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,"_blank");
   };
 
-  // â”€â”€ Imprimir relatorio â”€â”€
+  // ── Imprimir relatorio ──
   const imprimir = () => {
     const hoje = now.toLocaleDateString("pt-BR");
     const conteudo = `
@@ -1627,17 +1627,17 @@ _Ceballos MaintenPro_`;
         .andamento{background:#FF6B2B22;color:#FF6B2B}
         .concluida{background:#22C55E22;color:#22C55E}
       </style></head><body>
-      <h1>ðŸ”§ Ceballos MaintenPro â€” RelatÃ³rio de ManutenÃ§Ã£o</h1>
-      <p><strong>PerÃ­odo:</strong> ${periodo==="mes"?"MÃªs atual":periodo==="sem"?"Ãšltimos 7 dias":periodo==="hoje"?"Hoje":"Todo o perÃ­odo"} &nbsp;|&nbsp; <strong>Gerado em:</strong> ${hoje}</p>
+      <h1>🔧 Ceballos MaintenPro — Relatório de Manutenção</h1>
+      <p><strong>Período:</strong> ${periodo==="mes"?"Mês atual":periodo==="sem"?"Últimos 7 dias":periodo==="hoje"?"Hoje":"Todo o período"} &nbsp;|&nbsp; <strong>Gerado em:</strong> ${hoje}</p>
       <div>
         <div class="stat"><div class="stat-v">${recFiltrado.length}</div><div class="stat-l">TOTAL</div></div>
         <div class="stat"><div class="stat-v">${recFiltrado.filter(r=>r.status==="Em Andamento").length}</div><div class="stat-l">EM ANDAMENTO</div></div>
-        <div class="stat"><div class="stat-v">${recFiltrado.filter(r=>r.status==="Concluida").length}</div><div class="stat-l">CONCLUÃDAS</div></div>
+        <div class="stat"><div class="stat-v">${recFiltrado.filter(r=>r.status==="Concluida").length}</div><div class="stat-l">CONCLUÍDAS</div></div>
         <div class="stat"><div class="stat-v">${totalMins>=60?Math.floor(totalMins/60)+"h":totalMins+"min"}</div><div class="stat-l">TEMPO PARADO</div></div>
       </div>
-      <h2>Registros de ManutenÃ§Ã£o</h2>
+      <h2>Registros de Manutenção</h2>
       <table>
-        <tr><th>Equipamento</th><th>Tipo</th><th>TÃ©cnico</th><th>InÃ­cio</th><th>Fim</th><th>DuraÃ§Ã£o</th><th>Status</th></tr>
+        <tr><th>Equipamento</th><th>Tipo</th><th>Técnico</th><th>Início</th><th>Fim</th><th>Duração</th><th>Status</th></tr>
         ${recFiltrado.map(r=>{
           const mins = r.inicio&&r.fim?Math.floor((new Date(r.fim)-new Date(r.inicio))/60000):null;
           const dur  = mins?mins>=60?Math.floor(mins/60)+"h "+mins%60+"min":mins+"min":"Em andamento";
@@ -1652,7 +1652,7 @@ _Ceballos MaintenPro_`;
           </tr>`;
         }).join("")}
       </table>
-      <p style="margin-top:30px;font-size:11px;color:#999;text-align:center">Ceballos MaintenPro Â© â€” Eng. Sergio Cardoso</p>
+      <p style="margin-top:30px;font-size:11px;color:#999;text-align:center">Ceballos MaintenPro © — Eng. Sergio Cardoso</p>
       </body></html>
     `;
     const w = window.open("","_blank");
@@ -1661,7 +1661,7 @@ _Ceballos MaintenPro_`;
     w.print();
   };
 
-  // â”€â”€ Historico por equipamento â”€â”€
+  // ── Historico por equipamento ──
   const recEqDetalhe = eqDetalhe ? records.filter(r=>(r.eq_codigo||r.equipamento)===eqDetalhe) : [];
 
   return(
@@ -1670,20 +1670,20 @@ _Ceballos MaintenPro_`;
       {/* ABAS */}
       <div style={{display:"flex",background:"#091420",borderRadius:10,padding:3,marginBottom:16,border:`1.5px solid ${C.border}`}}>
         {abaBt("graficos",  "Graficos",  <IcoChart s={12}/>)}
-        {abaBt("alertas",   alertasAtivos.length>0?"ðŸ”´ Alertas":"Alertas", <IcoAlert s={12}/>)}
+        {abaBt("alertas",   alertasAtivos.length>0?"🔴 Alertas":"Alertas", <IcoAlert s={12}/>)}
         {abaBt("pecas",     "Pecas",     <IcoWrench s={12}/>)}
         {abaBt("historico", "Historico", <IcoList s={12}/>)}
         {abaBt("lista",     "Registros", <IcoGear s={12}/>)}
       </div>
 
-      {/* â”€â”€ GRAFICOS â”€â”€ */}
-      {/* â”€â”€ ALERTAS DE HORIMETRO â”€â”€ */}
+      {/* ── GRAFICOS ── */}
+      {/* ── ALERTAS DE HORIMETRO ── */}
       {aba==="alertas"&&(
         <>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
             <div>
-              <div style={{fontSize:15,fontWeight:800}}>Alertas de HorÃ­metro</div>
-              <div style={{fontSize:11,color:C.muted,marginTop:2}}>Revestimento dos britadores cÃ´nicos</div>
+              <div style={{fontSize:15,fontWeight:800}}>Alertas de Horímetro</div>
+              <div style={{fontSize:11,color:C.muted,marginTop:2}}>Revestimento dos britadores cônicos</div>
             </div>
           </div>
 
@@ -1724,7 +1724,7 @@ _Ceballos MaintenPro_`;
                     {/* Barra de progresso */}
                     <div style={{marginBottom:10}}>
                       <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
-                        <span style={{fontSize:11,color:C.muted}}>Horas desde Ãºltima troca</span>
+                        <span style={{fontSize:11,color:C.muted}}>Horas desde última troca</span>
                         <span style={{fontSize:11,fontWeight:700,color:status.cor}}>{Math.round(status.hUsado)}h / {cfg.intervalo}h</span>
                       </div>
                       <div style={{height:10,background:"#0d1820",borderRadius:5,overflow:"hidden"}}>
@@ -1745,381 +1745,5 @@ _Ceballos MaintenPro_`;
 
           {/* Modal configurar alerta */}
           {modalAlerta&&(
-            <Modal title="Configurar Alerta de HorÃ­metro" onClose={()=>setModalAlerta(null)}>
-              <div style={{padding:"8px 12px",background:"#0d1e2e",borderRadius:8,fontSize:13,color:C.muted,marginBottom:16}}>
-                <strong style={{color:C.orange}}>{britadoresCOnicos.find(e=>e.id===modalAlerta)?.nome}</strong>
-                <div style={{marginTop:4,fontSize:12}}>Defina quando alertar para troca do revestimento (manto e cÃ´ncavo)</div>
-              </div>
-
-              <Fld label="Intervalo de troca (horas)">
-                <input type="number" style={C.input} placeholder="Ex: 400" value={alertaForm.intervalo}
-                  onChange={e=>setAlertaForm(p=>({...p,intervalo:e.target.value}))}/>
-                <div style={{fontSize:11,color:C.muted,marginTop:4}}>A cada quantas horas de operaÃ§Ã£o trocar o revestimento</div>
-              </Fld>
-
-              <Fld label="Avisar com antecedÃªncia (horas)">
-                <input type="number" style={C.input} placeholder="Ex: 50" value={alertaForm.aviso}
-                  onChange={e=>setAlertaForm(p=>({...p,aviso:e.target.value}))}/>
-                <div style={{fontSize:11,color:C.muted,marginTop:4}}>Quantas horas antes do vencimento emitir o alerta amarelo</div>
-              </Fld>
-
-              <div style={{padding:"10px 12px",background:"#0a1520",borderRadius:8,fontSize:12,color:C.muted,marginBottom:16}}>
-                <div style={{fontWeight:700,color:C.text,marginBottom:4}}>Exemplo com os valores acima:</div>
-                <div>ðŸŸ¢ <strong>OK</strong> â€” abaixo de {Math.max(0,(parseInt(alertaForm.intervalo)||400)-(parseInt(alertaForm.aviso)||50))}h</div>
-                <div>ðŸŸ¡ <strong>Alerta</strong> â€” entre {Math.max(0,(parseInt(alertaForm.intervalo)||400)-(parseInt(alertaForm.aviso)||50))}h e {alertaForm.intervalo||400}h</div>
-                <div>ðŸ”´ <strong>Vencido</strong> â€” acima de {alertaForm.intervalo||400}h sem troca</div>
-              </div>
-
-              <div style={{display:"flex",gap:8}}>
-                <Btn onClick={()=>setModalAlerta(null)} outline full>Cancelar</Btn>
-                <Btn onClick={salvarAlerta} full disabled={!alertaForm.intervalo||!alertaForm.aviso}>
-                  <IcoCheck s={14}/> Salvar Alerta
-                </Btn>
-              </div>
-            </Modal>
-          )}
-        </>
-      )}
-
-      {aba==="graficos"&&(
-        <>
-          {/* Filtros */}
-          <Card style={{marginBottom:14}}>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:8}}>
-              <div>
-                <Lbl t="Periodo"/>
-                <select style={si} value={periodo} onChange={e=>setPeriodo(e.target.value)}>
-                  <option value="hoje">Hoje</option>
-                  <option value="sem">Ultimos 7 dias</option>
-                  <option value="mes">Mes atual</option>
-                  <option value="tudo">Tudo</option>
-                </select>
-              </div>
-              <div>
-                <Lbl t="Equipamento"/>
-                <select style={si} value={eqFiltro} onChange={e=>setEqFiltro(e.target.value)}>
-                  <option value="">Todos</option>
-                  {equipsUniq.map(id=><option key={id} value={id}>{id}</option>)}
-                </select>
-              </div>
-            </div>
-          </Card>
-
-          {/* Stats */}
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
-            {stats.map(([l,v,cor])=>(
-              <Card key={l}>
-                <div style={{fontSize:10,color:"#3a5a6a",marginBottom:3}}>{l.toUpperCase()}</div>
-                <div style={{fontSize:26,fontWeight:900,color:cor}}>
-                  {l==="Tempo Parado"?(v>=60?Math.floor(v/60)+"h "+v%60+"min":v+"min"):v}
-                </div>
-              </Card>
-            ))}
-          </div>
-
-          {/* Grafico ocorrencias */}
-          <Card style={{marginBottom:14}}>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
-              <div><div style={{fontSize:13,fontWeight:800}}>Ranking de Paradas</div><div style={{fontSize:11,color:C.muted}}>Equipamentos com mais ocorrencias</div></div>
-            </div>
-            <BarChart dados={dadosOcorr} cor={C.orange} unidade="n"/>
-          </Card>
-
-          {/* Grafico tempo */}
-          <Card style={{marginBottom:14}}>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
-              <div><div style={{fontSize:13,fontWeight:800}}>Tempo de Parada</div><div style={{fontSize:11,color:C.muted}}>Horas fora de operacao</div></div>
-            </div>
-            <BarChart dados={dadosParada} cor={C.yellow} unidade="h"/>
-          </Card>
-
-          {/* Grafico disponibilidade */}
-          <Card style={{marginBottom:14}}>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
-              <div><div style={{fontSize:13,fontWeight:800}}>Disponibilidade (%)</div><div style={{fontSize:11,color:C.muted}}>% do tempo em operacao</div></div>
-            </div>
-            <BarChart dados={dadosDisp} cor={C.green} unidade="n"/>
-          </Card>
-
-          {/* Comparativo mensal */}
-          <Card style={{marginBottom:14}}>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
-              <div><div style={{fontSize:13,fontWeight:800}}>Comparativo Mensal</div><div style={{fontSize:11,color:C.muted}}>Ultimos 6 meses</div></div>
-            </div>
-            <BarChart dados={dadosMensal} cor="#a855f7" unidade="n"/>
-          </Card>
-
-          {/* Botoes relatorio */}
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
-            <Btn onClick={enviarWhatsApp} color="#25D366" full>
-              <svg width={16} height={16} viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-              WhatsApp
-            </Btn>
-            <Btn onClick={imprimir} color="#1e3a5f" full>
-              <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-              Imprimir
-            </Btn>
-          </div>
-        </>
-      )}
-
-      {/* â”€â”€ PECAS TROCADAS â”€â”€ */}
-      {aba==="pecas"&&(
-        <>
-          <Card style={{marginBottom:14}}>
-            <Lbl t="Periodo"/>
-            <select style={si} value={periodo} onChange={e=>setPeriodo(e.target.value)}>
-              <option value="hoje">Hoje</option>
-              <option value="sem">Ultimos 7 dias</option>
-              <option value="mes">Mes atual</option>
-              <option value="tudo">Tudo</option>
-            </select>
-          </Card>
-
-          <Card style={{marginBottom:14}}>
-            <div style={{fontSize:13,fontWeight:800,marginBottom:14}}>Pecas Trocadas nas Transportadoras</div>
-            {pecas.length===0
-              ?<div style={{textAlign:"center",padding:20,color:C.muted}}>Sem dados de pecas no periodo</div>
-              :pecas.map(p=>(
-                <div key={p.label} style={{marginBottom:14}}>
-                  <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
-                    <span style={{fontSize:13,color:C.text,fontWeight:600}}>{p.label}</span>
-                    <span style={{fontSize:13,color:p.cor,fontWeight:800}}>{p.v} unid.</span>
-                  </div>
-                  <div style={{height:8,background:"#0d1820",borderRadius:4,overflow:"hidden"}}>
-                    <div style={{height:"100%",width:Math.min(100,(p.v/Math.max(...pecas.map(x=>x.v)))*100)+"%",background:p.cor,borderRadius:4}}/>
-                  </div>
-                </div>
-              ))
-            }
-          </Card>
-
-          {/* Pecas por equipamento */}
-          <Card>
-            <div style={{fontSize:13,fontWeight:800,marginBottom:12}}>Roletes por Transportadora</div>
-            {equipsUniq.filter(id=>id.startsWith("TC")).map(id=>{
-              const recs = recPeriodo.filter(r=>(r.eq_codigo||r.equipamento)===id);
-              const qtdRoletes = recs.reduce((a,r)=>{
-                if(!r.tcItens) return a;
-                return a + (parseInt(r.tcItens["rc"]?.qty)||0) + (parseInt(r.tcItens["rr"]?.qty)||0) + (parseInt(r.tcItens["ri"]?.qty)||0);
-              },0);
-              if(qtdRoletes===0) return null;
-              return(
-                <div key={id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 0",borderBottom:`1px solid ${C.border}`}}>
-                  <span style={{fontSize:13,color:C.text,fontWeight:600}}>{id}</span>
-                  <span style={{fontSize:13,color:C.orange,fontWeight:800}}>{qtdRoletes} roletes</span>
-                </div>
-              );
-            })}
-          </Card>
-        </>
-      )}
-
-      {/* â”€â”€ HISTORICO POR EQUIPAMENTO â”€â”€ */}
-      {aba==="historico"&&(
-        <>
-          <Card style={{marginBottom:14}}>
-            <Lbl t="Selecione o Equipamento"/>
-            <select style={si} value={eqDetalhe||""} onChange={e=>setEqDetalhe(e.target.value||null)}>
-              <option value="">Selecione...</option>
-              {[...new Set(records.map(r=>r.eq_codigo||r.equipamento))].filter(Boolean).sort().map(id=>(
-                <option key={id} value={id}>{id} â€” {records.find(r=>(r.eq_codigo||r.equipamento)===id)?.eq_nome||""}</option>
-              ))}
-            </select>
-          </Card>
-
-          {eqDetalhe&&(
-            <>
-              {/* Resumo do equipamento */}
-              <Card style={{marginBottom:14,borderColor:C.orange+"44"}}>
-                <div style={{fontSize:15,fontWeight:800,color:C.orange,marginBottom:10}}>{eqDetalhe}</div>
-                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
-                  <Kv l="MANUTENCOES" v={recEqDetalhe.length}/>
-                  <Kv l="CONCLUIDAS" v={recEqDetalhe.filter(r=>r.status==="Concluida").length}/>
-                  <Kv l="HORAS PARADO" v={(()=>{const m=recEqDetalhe.filter(r=>r.fim).reduce((a,r)=>a+Math.floor((new Date(r.fim)-new Date(r.inicio))/60000),0);return m>=60?Math.floor(m/60)+"h":m+"min";})()}/>
-                </div>
-              </Card>
-
-              {/* Historico completo */}
-              <div style={{fontSize:13,fontWeight:700,color:C.muted,marginBottom:10}}>HISTÃ“RICO COMPLETO ({recEqDetalhe.length} registros)</div>
-              {recEqDetalhe.length===0
-                ?<Card style={{textAlign:"center",padding:30}}><div style={{color:C.muted}}>Nenhum registro para este equipamento</div></Card>
-                :recEqDetalhe.map(r=><ManutCard key={r.id} rec={r} onFinish={fin} onDelete={del}/>)
-              }
-            </>
-          )}
-
-          {!eqDetalhe&&(
-            <Card style={{textAlign:"center",padding:44}}>
-              <div style={{fontSize:36,marginBottom:8}}>ðŸ”</div>
-              <div style={{color:C.muted}}>Selecione um equipamento para ver o historico completo</div>
-            </Card>
-          )}
-        </>
-      )}
-
-      {/* â”€â”€ LISTA GERAL â”€â”€ */}
-      {aba==="lista"&&(
-        <>
-          <Card style={{marginBottom:14}}>
-            <input style={{...C.input,marginBottom:8}} placeholder="Buscar equipamento, tecnico..." value={fs.q} onChange={e=>setFs(p=>({...p,q:e.target.value}))}/>
-            <select style={si} value={fs.status} onChange={e=>setFs(p=>({...p,status:e.target.value}))}>
-              <option value="">Todos status</option>{Object.keys(COR_ST).map(s=><option key={s}>{s}</option>)}
-            </select>
-          </Card>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-            <span style={{fontSize:13,color:C.muted}}>{filtered.length} registro{filtered.length!==1?"s":""}</span>
-          </div>
-          {filtered.length===0
-            ?<Card style={{textAlign:"center",padding:44}}><div style={{fontSize:36,marginBottom:8}}>ðŸ”§</div><div style={{color:C.muted}}>Nenhum registro encontrado</div></Card>
-            :filtered.map(r=><ManutCard key={r.id} rec={r} onFinish={fin} onDelete={del}/>)
-          }
-        </>
-      )}
-    </div>
-  );
-}
-
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// APP PRINCIPAL
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-export default function App() {
-  const [user, setUser]       = useState(null);
-  const [records, setRecords] = useState([]);
-  const [tab, setTab]         = useState("novo");
-  const [adminTab, setAdminTab] = useState("pedreiras");
-  const [tick, setTick]       = useState(new Date());
-
-  useEffect(()=>{ const t=setInterval(()=>setTick(new Date()),30000); return()=>clearInterval(t); },[]);
-
-  const logout = () => { setUser(null); setRecords([]); setTab("novo"); };
-
-  const finOp = (rec) => setRecords(records.map(r=>r.id===rec.id?{...r,fim:new Date().toISOString(),status:"Concluida"}:r));
-
-  const activeN = records.filter(r=>r.status==="Em Andamento").length;
-
-  if(!user) return <LoginPage onLogin={u=>{setUser(u);}}/>;
-
-  const tabB = (id,label,icon) => ({
-    flex:1,padding:"9px 6px",borderRadius:9,
-    background:tab===id?"#111e2e":"transparent",
-    border:tab===id?"1.5px solid #1e3044":"1.5px solid transparent",
-    color:tab===id?C.text:C.muted,fontSize:12,fontWeight:700,cursor:"pointer",
-    display:"flex",alignItems:"center",justifyContent:"center",gap:5,fontFamily:"inherit"
-  });
-
-  const adminTabB = (id,label) => ({
-    flex:1,padding:"8px 4px",borderRadius:8,
-    background:adminTab===id?C.orange+"22":"transparent",
-    border:adminTab===id?`1px solid ${C.orange}44`:"1px solid transparent",
-    color:adminTab===id?C.orange:C.muted,fontSize:11,fontWeight:700,cursor:"pointer",
-    fontFamily:"inherit",
-  });
-
-  return(
-    <div style={{minHeight:"100vh",background:C.bg,color:C.text,fontFamily:"'Barlow','Segoe UI',sans-serif",maxWidth:480,margin:"0 auto"}}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@700;800;900&display=swap');
-        *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-        select option{background:#0a1520;color:#deeaf5}
-        input[type="datetime-local"]::-webkit-calendar-picker-indicator{filter:invert(.55)}
-        ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:#1e3044;border-radius:3px}
-        @keyframes spin{to{transform:rotate(360deg)}}
-        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-        @keyframes fadeUp{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
-      `}</style>
-
-      {/* HEADER */}
-      <div style={{background:C.bg,borderBottom:`1px solid ${C.border}`,padding:"13px 15px 11px",position:"sticky",top:0,zIndex:99}}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:11}}>
-          <div>
-            <div style={{fontSize:20,fontWeight:900,fontFamily:"'Barlow Condensed',sans-serif",color:C.orange,letterSpacing:.5,lineHeight:1}}>CEBALLOS</div>
-            <div style={{fontSize:13,fontWeight:700,color:C.text,lineHeight:1.2}}>MaintenPro</div>
-            {user.pedreira_nome&&<div style={{fontSize:10,color:C.muted,marginTop:2}}>{user.pedreira_nome}</div>}
-          </div>
-          <div style={{textAlign:"right"}}>
-            <div style={{fontSize:11,color:C.muted}}>{tick.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit"})}</div>
-            <div style={{fontSize:13,fontWeight:700}}>{tick.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}</div>
-            <div style={{display:"flex",alignItems:"center",gap:6,justifyContent:"flex-end",marginTop:3}}>
-              <Tag label={user.perfil} color={user.perfil==="admin"?"#a855f7":user.perfil==="gerente"?C.yellow:C.orange}/>
-              {activeN>0&&<div style={{fontSize:11,color:C.orange,fontWeight:700,display:"flex",alignItems:"center",gap:3}}><span style={{width:5,height:5,borderRadius:"50%",background:C.orange,animation:"pulse 1.4s infinite"}}/>{activeN}</div>}
-            </div>
-          </div>
-        </div>
-
-        {/* USER INFO + LOGOUT */}
-        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"7px 10px",background:"#0a1520",borderRadius:10,border:`1px solid ${C.border}`,marginBottom:10}}>
-          <div style={{display:"flex",alignItems:"center",gap:8}}>
-            <div style={{width:28,height:28,borderRadius:"50%",background:C.orange+"22",border:`1.5px solid ${C.orange}44`,display:"flex",alignItems:"center",justifyContent:"center",color:C.orange}}>
-              <IcoUser s={13}/>
-            </div>
-            <div style={{fontSize:12,fontWeight:600,color:C.text}}>{user.nome}</div>
-          </div>
-          <button onClick={logout} style={{background:"transparent",border:"none",color:C.muted,cursor:"pointer",display:"flex",alignItems:"center",gap:4,fontSize:11,fontFamily:"inherit"}}>
-            <IcoLogout s={13}/> Sair
-          </button>
-        </div>
-
-        {/* TABS POR PERFIL */}
-        {user.perfil==="admin"&&(
-          <div style={{display:"flex",gap:4}}>
-            {[["pedreiras","Pedreiras",<IcoBuilding s={11}/>],["usuarios","Usuarios",<IcoUser s={11}/>],["equipamentos","Equipamentos",<IcoGear s={11}/>],["dashboard","Dashboard",<IcoChart s={11}/>]].map(([id,label,icon])=>(
-              <button key={id} onClick={()=>setAdminTab(id)} style={adminTabB(id,label)}>
-                {icon} {label}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {user.perfil==="gerente"&&(
-          <div style={{display:"flex",background:"#091420",borderRadius:10,padding:3,border:`1.5px solid ${C.border}`}}>
-            <button style={tabB("dashboard","Dashboard",<IcoChart s={13}/>)} onClick={()=>setTab("dashboard")}><IcoChart s={13}/>Dashboard</button>
-            <button style={tabB("historico","Historico",<IcoList s={13}/>)} onClick={()=>setTab("historico")}><IcoList s={13}/>Historico</button>
-          </div>
-        )}
-
-        {user.perfil==="operador"&&(
-          <div style={{display:"flex",background:"#091420",borderRadius:10,padding:3,border:`1.5px solid ${C.border}`}}>
-            <button style={tabB("novo","Novo Registro",<IcoPlus s={13}/>)} onClick={()=>setTab("novo")}><IcoPlus s={13}/>Novo Registro</button>
-            <button style={tabB("historico","Historico",<IcoList s={13}/>)} onClick={()=>setTab("historico")}><IcoList s={13}/>Historico ({records.length})</button>
-          </div>
-        )}
-      </div>
-
-      {/* CONTENT */}
-      <div style={{padding:"16px 14px",animation:"fadeUp .2s ease"}}>
-
-        {/* ADMIN */}
-        {user.perfil==="admin"&&(
-          <>
-            {adminTab==="pedreiras"&&<AdminPedreiras/>}
-            {adminTab==="usuarios"&&<AdminUsuarios/>}
-            {adminTab==="equipamentos"&&<AdminEquipamentos/>}
-            {adminTab==="dashboard"&&<Dashboard records={records} setRecords={setRecords} user={user}/>}
-          </>
-        )}
-
-        {/* GERENTE */}
-        {user.perfil==="gerente"&&(
-          <Dashboard records={records} setRecords={setRecords} user={user}/>
-        )}
-
-        {/* OPERADOR */}
-        {user.perfil==="operador"&&(
-          <>
-            {tab==="novo"&&<OperadorForm user={user} records={records} setRecords={setRecords}/>}
-            {tab==="historico"&&(
-              records.length===0
-                ?<Card style={{textAlign:"center",padding:44}}><div style={{fontSize:36,marginBottom:8}}>ðŸ“‹</div><div style={{color:C.muted}}>Nenhum registro ainda.</div></Card>
-                :records.map(r=><ManutCard key={r.id} rec={r} onFinish={finOp} onDelete={null}/>)
-            )}
-          </>
-        )}
-      </div>
-
-      <div style={{textAlign:"center",padding:"8px 16px 20px",fontSize:11,color:"#1a2e3e"}}>
-        Ceballos MaintenPro Â© 2025 â€” Eng. Sergio Cardoso
-      </div>
-    </div>
-  );
-      }
+            <Modal title="Configurar Alerta de Horímetro" onClose={()=>setModalAlerta(null)}>
+              <div style={{padding:"8px 12px",background:"#0d
