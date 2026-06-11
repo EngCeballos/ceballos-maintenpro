@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 
-// ═══════════════════════════════════════════════════════════
-// SUPABASE CONFIG — substitua pela sua URL e chave anon
-// ═══════════════════════════════════════════════════════════
-const SUPABASE_URL = "https://wahrxfkhhjpcrrjxtgna.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndhaHJ4ZmtoaGpwY3Jyanh0Z25hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0OTMxNjEsImV4cCI6MjA5NDA2OTE2MX0.kEN0PcoFJIc3Wrjvu2qlGvFZ3fZjcxgNumQaTa5b-BE";
+// ===========================================================
+// SUPABASE CONFIG  -  substitua pela sua URL e chave anon
+// ===========================================================
+const SUPABASE_URL = "YOUR_SUPABASE_URL";
+const SUPABASE_KEY = "YOUR_SUPABASE_ANON_KEY";
 
 const sb = {
   headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}`, "Content-Type": "application/json", "Prefer": "return=representation" },
@@ -33,13 +33,13 @@ const sb = {
   },
 };
 
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 // TIPOS DE EQUIPAMENTO E CHECKLISTS PADRÃO
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 
-// ═══════════════════════════════════════════════════════════
-// CHECKLISTS — PEDREIRA TESTE 01
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
+// CHECKLISTS  -  PEDREIRA TESTE 01
+// ===========================================================
 
 // t: "c"=check simples, "q"=check+qtd, "op"=check+opcoes, "v"=check+valor numerico
 const TC_GRUPOS = [
@@ -53,6 +53,11 @@ const TC_GRUPOS = [
     {id:"rc",label:"Troca de roletes de carga",t:"q"},
     {id:"rr",label:"Troca de roletes de retorno",t:"q"},
     {id:"ri",label:"Troca de roletes de impacto",t:"q"},
+    {id:"rg",label:"Troca de rolete de guia",t:"q"},
+  ]},
+  {grupo:"Mesa de Impacto",itens:[
+    {id:"mi1",label:"Solda na mesa de impacto",t:"c"},
+    {id:"mi2",label:"Troca das barras de borracha",t:"q"},
   ]},
   {grupo:"Cavaletes",itens:[
     {id:"cc",label:"Troca de cavalete de carga",t:"q"},
@@ -70,14 +75,14 @@ const TC_GRUPOS = [
   ]},
   {grupo:"Redutora",itens:[
     {id:"red1",label:"Troca",t:"c"},
-    {id:"red2",label:"Alinhamento — polia",t:"c"},
-    {id:"red3",label:"Alinhamento — correia",t:"c"},
+    {id:"red2",label:"Alinhamento  -  polia",t:"c"},
+    {id:"red3",label:"Alinhamento  -  correia",t:"c"},
     {id:"red4",label:"Manutencao",t:"c"},
   ]},
   {grupo:"Motor",itens:[
     {id:"mot1",label:"Troca",t:"c"},
     {id:"mot2",label:"Manutencao",t:"c"},
-    {id:"mot3",label:"Alinhamento — polia",t:"c"},
+    {id:"mot3",label:"Alinhamento  -  polia",t:"c"},
   ]},
   {grupo:"Limpeza",itens:[
     {id:"lr",label:"Regulagem de raspador",t:"c"},
@@ -341,8 +346,8 @@ const BRT_GRUPOS = {
       {id:"lj_m4",label:"Virada da chapa de mandibula movel",t:"c"},
     ]},
     {grupo:"Placas Laterais (Cheek Plates)",itens:[
-      {id:"lj_cp1",label:"Troca da placa lateral — lado D",t:"c"},
-      {id:"lj_cp2",label:"Troca da placa lateral — lado E",t:"c"},
+      {id:"lj_cp1",label:"Troca da placa lateral  -  lado D",t:"c"},
+      {id:"lj_cp2",label:"Troca da placa lateral  -  lado E",t:"c"},
       {id:"lj_cp3",label:"Inspecao do desgaste das placas laterais",t:"c"},
     ]},
     {grupo:"Ajuste do CSS (Fechamento)",itens:[
@@ -382,21 +387,21 @@ const BRT_GRUPOS = {
     ]},
   ],
     C125:[
-    {grupo:"Mandiбulas",itens:[
+    {grupo:"Mandibulas",itens:[
       {id:"bm1",label:"Mandibula fixa",t:"op",ops:["Troca","Virada"]},
       {id:"bm2",label:"Mandibula movel",t:"op",ops:["Troca","Virada"]},
     ]},
     {grupo:"Fechamento",itens:[
       {id:"bf1",label:"Medicao do vao (polegadas)",t:"v",placeholder:"Ex: 8.5"},
-      {id:"bf2",label:"Calco das cunhas — Colocando",t:"c"},
-      {id:"bf3",label:"Calco das cunhas — Retirando",t:"c"},
-      {id:"bf4",label:"Calco das cunhas — Manutencao",t:"c"},
+      {id:"bf2",label:"Calco das cunhas  -  Colocando",t:"c"},
+      {id:"bf3",label:"Calco das cunhas  -  Retirando",t:"c"},
+      {id:"bf4",label:"Calco das cunhas  -  Manutencao",t:"c"},
     ]},
     {grupo:"Cunhas Laterais",itens:[
-      {id:"bc1",label:"Cunha superior — lado D",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
-      {id:"bc2",label:"Cunha superior — lado E",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
-      {id:"bc3",label:"Cunha inferior — lado D",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
-      {id:"bc4",label:"Cunha inferior — lado E",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
+      {id:"bc1",label:"Cunha superior  -  lado D",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
+      {id:"bc2",label:"Cunha superior  -  lado E",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
+      {id:"bc3",label:"Cunha inferior  -  lado D",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
+      {id:"bc4",label:"Cunha inferior  -  lado E",t:"op",ops:["Troca","Reaperto","Troca de parafusos"]},
     ]},
     {grupo:"Abanadeira",itens:[
       {id:"ba1",label:"Abanadeira",t:"op",ops:["Troca","Alinhamento","Manutencao"]},
@@ -405,11 +410,11 @@ const BRT_GRUPOS = {
       {id:"bca1",label:"Calha superior",t:"op",ops:["Troca","Reaperto","Alinhamento","Manutencao"]},
       {id:"bca2",label:"Calha inferior",t:"op",ops:["Troca","Reaperto","Alinhamento","Manutencao"]},
     ]},
-    {grupo:"Calcos das Mandiбulas",itens:[
-      {id:"bcm1",label:"Calco movel superior — Mandibula fixa",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
-      {id:"bcm2",label:"Calco movel superior — Mandibula movel",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
-      {id:"bcm3",label:"Calco fixo inferior — Mandibula fixa",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
-      {id:"bcm4",label:"Calco fixo inferior — Mandibula movel",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
+    {grupo:"Calcos das Mandibulas",itens:[
+      {id:"bcm1",label:"Calco movel superior  -  Mandibula fixa",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
+      {id:"bcm2",label:"Calco movel superior  -  Mandibula movel",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
+      {id:"bcm3",label:"Calco fixo inferior  -  Mandibula fixa",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
+      {id:"bcm4",label:"Calco fixo inferior  -  Mandibula movel",t:"op",ops:["Troca","Troca de parafusos","Reaperto","Manutencao"]},
     ]},
     {grupo:"Motor",itens:[
       {id:"bmo1",label:"Motor",t:"op",ops:["Alinhamento","Reaperto","Manutencao"]},
@@ -431,16 +436,16 @@ const TIPOS_EQ = ["Transportadora de Correia","Britador Conico","Britador de Man
 const TIPOS_MANUT = ["Manutencao Preventiva","Manutencao Corretiva","Manutencao Preditiva","Inspecao","Lubrificacao","Troca de Pecas","Ajuste / Regulagem","Emergencia"];
 const COR_ST = { "Em Andamento":"#FF6B2B", "Concluida":"#22C55E", "Aguardando":"#F59E0B" };
 
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 // HELPERS
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,5);
-const fmtT = iso => iso ? new Date(iso).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit",hour:"2-digit",minute:"2-digit"}) : "—";
-const fmtD = (s,e) => { if(!s) return "—"; const m=Math.floor((new Date(e||Date.now())-new Date(s))/60000); if(m<1) return "<1min"; return m<60?`${m}min`:`${Math.floor(m/60)}h ${m%60}min`; };
+const fmtT = iso => iso ? new Date(iso).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit",hour:"2-digit",minute:"2-digit"}) : " - ";
+const fmtD = (s,e) => { if(!s) return " - "; const m=Math.floor((new Date(e||Date.now())-new Date(s))/60000); if(m<1) return "<1min"; return m<60?`${m}min`:`${Math.floor(m/60)}h ${m%60}min`; };
 
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 // STYLES
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 const C = {
   bg:     "#060f18",
   card:   "#0a1520",
@@ -453,9 +458,9 @@ const C = {
   input:  { width:"100%", boxSizing:"border-box", padding:"11px 13px", borderRadius:10, border:"1.5px solid #1e3044", background:"#0a1520", color:"#deeaf5", fontSize:15, outline:"none", fontFamily:"inherit" },
 };
 
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 // ICONS
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 const p = (s=18) => ({width:s,height:s,viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round"});
 const IcoWrench  = ({s=16}) => <svg {...p(s)}><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>;
 const IcoChart   = ({s=16}) => <svg {...p(s)}><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>;
@@ -471,12 +476,12 @@ const IcoRef     = ({s=16}) => <svg {...p(s)}><polyline points="23 4 23 10 17 10
 const IcoTrash   = ({s=16}) => <svg {...p(s)}><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>;
 const IcoAlert   = ({s=16}) => <svg {...p(s)}><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>;
 
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 // MINI COMPONENTS
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 const Lbl = ({t}) => <div style={{fontSize:11,fontWeight:700,color:C.muted,letterSpacing:1,textTransform:"uppercase",marginBottom:6}}>{t}</div>;
 const Fld = ({label,children}) => <div style={{marginBottom:14}}><Lbl t={label}/>{children}</div>;
-const Kv  = ({l,v,hi}) => <div style={{background:"#091420",borderRadius:8,padding:"7px 10px"}}><div style={{fontSize:10,color:"#3a5a6a",marginBottom:2}}>{l}</div><div style={{fontSize:12,color:hi?C.orange:C.text,fontWeight:hi?700:500}}>{v||"—"}</div></div>;
+const Kv  = ({l,v,hi}) => <div style={{background:"#091420",borderRadius:8,padding:"7px 10px"}}><div style={{fontSize:10,color:"#3a5a6a",marginBottom:2}}>{l}</div><div style={{fontSize:12,color:hi?C.orange:C.text,fontWeight:hi?700:500}}>{v||" - "}</div></div>;
 const Box = ({on,color=C.orange,size=22}) => <div style={{width:size,height:size,borderRadius:6,flexShrink:0,border:on?`2px solid ${color}`:"2px solid #2a3f54",background:on?color:"transparent",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .15s"}}>{on&&<IcoCheck s={size-8}/>}</div>;
 const Tag = ({label,color=C.orange}) => <span style={{fontSize:11,padding:"2px 8px",borderRadius:20,background:color+"22",color,border:`1px solid ${color}44`,fontWeight:600}}>{label}</span>;
 const Spin = () => <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" style={{animation:"spin .7s linear infinite"}}><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>;
@@ -510,9 +515,9 @@ const Modal = ({title,onClose,children}) => (
   </div>
 );
 
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 // BAR CHART
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 const BarChart = ({dados,cor,unidade}) => {
   if(!dados?.length) return <div style={{textAlign:"center",padding:20,color:C.muted,fontSize:13}}>Sem dados no periodo</div>;
   const max = Math.max(...dados.map(d=>d.v),1);
@@ -533,9 +538,9 @@ const BarChart = ({dados,cor,unidade}) => {
   );
 };
 
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 // LOGIN PAGE
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 function LoginPage({onLogin}) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -558,7 +563,7 @@ function LoginPage({onLogin}) {
     // 1. Verifica se email existe nos usuarios demo
     const demoByEmail = DEMO_USERS.find(u=>u.email===email);
     if(demoByEmail){
-      // Email encontrado — verifica senha
+      // Email encontrado  -  verifica senha
       if(demoByEmail.senha===senha){
         setLoading(false);
         onLogin(demoByEmail);
@@ -581,7 +586,7 @@ function LoginPage({onLogin}) {
         setErro("Email ou senha incorretos. Verifique seus dados.");
       }
     } catch {
-      // Supabase nao configurado — usuario nao e demo
+      // Supabase nao configurado  -  usuario nao e demo
       setErro("Email nao encontrado. Verifique o email digitado.");
     }
     setLoading(false);
@@ -605,7 +610,7 @@ function LoginPage({onLogin}) {
             <input style={C.input} type="email" placeholder="seu@email.com" value={email} onChange={e=>setEmail(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleLogin()}/>
           </Fld>
           <Fld label="Senha">
-            <input style={C.input} type="password" placeholder="••••••••" value={senha} onChange={e=>setSenha(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleLogin()}/>
+            <input style={C.input} type="password" placeholder="********" value={senha} onChange={e=>setSenha(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleLogin()}/>
           </Fld>
           {erro && <div style={{display:"flex",gap:6,padding:"8px 12px",background:"#160808",border:"1px solid #3a1010",borderRadius:8,marginBottom:12,fontSize:12,color:"#ef4444"}}><IcoAlert s={14}/>{erro}</div>}
           <Btn onClick={handleLogin} disabled={!email||!senha||loading} full>{loading?<><Spin/>Entrando...</>:"Entrar"}</Btn>
@@ -625,9 +630,9 @@ function LoginPage({onLogin}) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 // ADMIN - GERENCIAR PEDREIRAS
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 function AdminPedreiras() {
   const [pedreiras, setPedreiras] = useState([
     {id:"p1",nome:"Pedreira Teste 01",localizacao:"A definir",ativa:true,operadores:0,gerentes:0},
@@ -681,9 +686,9 @@ function AdminPedreiras() {
   );
 }
 
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 // ADMIN - GERENCIAR USUARIOS
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 function AdminUsuarios() {
   const [usuarios, setUsuarios] = useState([
     {id:"u1",nome:"Eng. Sergio Cardoso",email:"admin@ceballos.com",perfil:"admin",pedreira:"Todas",ativo:true},
@@ -780,9 +785,9 @@ function AdminUsuarios() {
   );
 }
 
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 // ADMIN - GERENCIAR EQUIPAMENTOS
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 function AdminEquipamentos() {
   const [equips, setEquips] = useState([
     {id:"e1", codigo:"TC01",    nome:"TC 01 - Primario",               tipo:"Transportadora de Correia", pedreira:"Pedreira Teste 01", ativo:true},
@@ -906,9 +911,9 @@ function AdminEquipamentos() {
   );
 }
 
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 // OPERATOR - FORM
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 const DEMO_EQUIPS = [
   {id:"e1", codigo:"TC01",    nome:"TC 01 - Primario",                tipo:"Transportadora de Correia"},
   {id:"e2", codigo:"TC02",    nome:"TC 02 - Rejeito",                 tipo:"Transportadora de Correia"},
@@ -942,7 +947,7 @@ const DEMO_EQUIPS = [
 ];
 
 
-// ── FOTO UPLOAD ──
+// -- FOTO UPLOAD --
 function FotoUpload({fotos, onChange}) {
   const inputRef = React.useRef();
 
@@ -1035,7 +1040,7 @@ function FotoUpload({fotos, onChange}) {
   );
 }
 
-// ── CHECKLIST COMPONENT ──
+// -- CHECKLIST COMPONENT --
 function ChecklistGrupos({grupos, itens, onChange}) {
   const total = Object.values(itens).filter(v=>v.on).length;
   const toggle = id => { const cur=itens[id]||{on:false,qty:"",op:"",val:""}; onChange({...itens,[id]:{...cur,on:!cur.on}}); };
@@ -1096,12 +1101,12 @@ function ChecklistPeneira({equipCodigo, itens, onChange}) {
   const cfgKey = Object.keys(PEN_CONFIG).find(k=>equipCodigo===k||equipCodigo==="PEN0"+k.slice(-1));
   const cfg = PEN_CONFIG[equipCodigo] || PEN_CONFIG[cfgKey];
   if(!cfg) return null;
-  const deckGrupo = {grupo:"Troca de Telas", itens:cfg.decks.map(d=>({id:d.id,label:d.label+" — "+d.info,t:"q"}))};
+  const deckGrupo = {grupo:"Troca de Telas", itens:cfg.decks.map(d=>({id:d.id,label:d.label+"  -  "+d.info,t:"q"}))};
   const allGrupos = [deckGrupo,...PEN_GRUPOS_FIXOS];
   return(
     <div>
       <div style={{marginBottom:8,padding:"7px 11px",background:"#0d1e2e",borderRadius:8,fontSize:12,color:"#5a8a9a",display:"flex",gap:6,alignItems:"center"}}>
-        <span style={{color:C.orange,fontWeight:800}}>{cfg.nome}</span><span>—</span><span>{cfg.material}</span>
+        <span style={{color:C.orange,fontWeight:800}}>{cfg.nome}</span><span> - </span><span>{cfg.material}</span>
       </div>
       <ChecklistGrupos grupos={allGrupos} itens={itens} onChange={onChange}/>
     </div>
@@ -1109,7 +1114,7 @@ function ChecklistPeneira({equipCodigo, itens, onChange}) {
 }
 
 
-// ── CATEGORY ICONS ──
+// -- CATEGORY ICONS --
 function CatIcon({tipo, ativo}) {
   const cor = ativo ? "#FF6B2B" : "#4a6a7a";
   const s = 38;
@@ -1204,6 +1209,290 @@ function CatIcon({tipo, ativo}) {
   return <div style={{display:"flex",justifyContent:"center"}}>{icons[tipo]||icons["Outro"]}</div>;
 }
 
+
+// -- SELETOR TIPO REGISTRO --
+function SeletorTipo({tipo, onChange}) {
+  const tipos = [
+    {id:"manutencao", label:"Manutencao", cor:"#FF6B2B", icon:"M"},
+    {id:"inspecao",   label:"Inspecao",   cor:"#2E75B6", icon:"I"},
+    {id:"os",         label:"Ordem de Servico", cor:"#a855f7", icon:"OS"},
+  ];
+  return(
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,marginBottom:16}}>
+      {tipos.map(t=>(
+        <div key={t.id} onClick={()=>onChange(t.id)} style={{
+          padding:"12px 6px", borderRadius:12, textAlign:"center", cursor:"pointer",
+          background: tipo===t.id ? t.cor+"22" : "#0a1520",
+          border: "1.5px solid "+(tipo===t.id ? t.cor : "#1e3044"),
+          transition:"all .15s",
+        }}>
+          <div style={{fontSize:16,fontWeight:900,color:tipo===t.id?t.cor:"#4a6a7a",marginBottom:3}}>{t.icon}</div>
+          <div style={{fontSize:10,fontWeight:700,color:tipo===t.id?t.cor:"#4a6a7a",lineHeight:1.3}}>{t.label}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// -- ORDEM DE SERVICO FORM --
+function FormInspecao({user, records, setRecords, onBack}) {
+  const blank = () => ({equipamento:"",inspector:user.nome||"",inicio:new Date().toISOString().slice(0,16),horimetro:"",resultado:"Conforme",observacoes:"",itens:{}});
+  const [f, setF] = useState(blank());
+  const [st, setSt] = useState("idle");
+  const set = (k,v) => setF(p=>({...p,[k]:v}));
+  const eq = DEMO_EQUIPS.find(e=>e.id===f.equipamento);
+  const valid = f.equipamento && f.inspector && f.inicio;
+  const GRUPOS_E = ["Transportadora de Correia","Britador Conico","Britador de Mandibula","Peneira de Separacao","Alimentador","Outro"];
+  const resCores = {"Conforme":"#22C55E","Atencao":"#F59E0B","Nao Conforme":"#ef4444"};
+  const toggleItem = (item,val) => setF(p=>({...p,itens:{...p.itens,[item]:val}}));
+
+  // Usa o mesmo checklist da manutencao baseado no tipo do equipamento
+  const getGrupos = () => {
+    if(!eq) return [];
+    if(eq.tipo==="Transportadora de Correia") return TC_GRUPOS;
+    if(eq.tipo==="Britador Conico") {
+      if(eq.codigo==="HP400-1"||eq.codigo==="HP400-2") return BRT_GRUPOS.HP400;
+      return BRT_GRUPOS.PatriotCone||BRT_GRUPOS.HP400;
+    }
+    if(eq.tipo==="Britador de Mandibula") return BRT_GRUPOS.C125||BRT_GRUPOS.LibertyJaw;
+    if(eq.tipo==="Peneira de Separacao") {
+      const cfg = PEN_CONFIG[eq.codigo];
+      if(cfg) {
+        const deckGrupo = {grupo:"Troca de Telas", itens:cfg.decks.map(d=>({id:d.id,label:d.label+" - "+d.info,t:"c"}))};
+        return [deckGrupo,...PEN_GRUPOS_FIXOS];
+      }
+    }
+    return [];
+  };
+  const grupos = getGrupos();
+  const salvar = () => {
+    if(!valid) return; setSt("saving");
+    const nova = {...f,id:uid(),tipo:"inspecao",criadoEm:new Date().toISOString(),eq_nome:eq?.nome,eq_codigo:eq?.codigo,eq_tipo:eq?.tipo,pedreira_id:user.pedreira_id,pedreira_nome:user.pedreira_nome,operador:f.inspector,status:f.resultado,tipoManutencao:"Inspecao"};
+    setRecords(prev=>[nova,...prev]); setSt("ok");
+    setTimeout(()=>{ onBack(); },1600);
+  };
+  return(
+    <div style={{paddingBottom:100}}>
+      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
+        <button onClick={onBack} style={{padding:"8px 12px",borderRadius:8,border:"1.5px solid #1e3044",background:"transparent",color:"#6a8a9a",fontSize:12,cursor:"pointer",fontFamily:"inherit"}}>Voltar</button>
+        <div style={{fontSize:16,fontWeight:800,color:"#deeaf5"}}>Registro de Inspecao</div>
+      </div>
+      <Fld label="Equipamento *">
+        <select style={C.input} value={f.equipamento} onChange={e=>set("equipamento",e.target.value)}>
+          <option value="">Selecione o equipamento...</option>
+          {GRUPOS_E.map(g=>(<optgroup key={g} label={g}>{DEMO_EQUIPS.filter(e=>e.tipo===g).map(e=><option key={e.id} value={e.id}>{e.nome}</option>)}</optgroup>))}
+        </select>
+        {eq&&<div style={{marginTop:6,padding:"6px 11px",background:"#0d1e2e",borderRadius:8,fontSize:12,color:"#5a8a9a"}}><span style={{color:"#FF6B2B",fontWeight:800}}>{eq.codigo}</span> - {eq.nome}</div>}
+      </Fld>
+      <Fld label="Inspetor *"><input style={C.input} value={f.inspector} onChange={e=>set("inspector",e.target.value)}/></Fld>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+        <Fld label="Data / Hora *"><input type="datetime-local" style={C.input} value={f.inicio} onChange={e=>set("inicio",e.target.value)}/></Fld>
+        <Fld label="Horimetro (h)"><input type="number" style={C.input} placeholder="Ex: 4523" value={f.horimetro} onChange={e=>set("horimetro",e.target.value)}/></Fld>
+      </div>
+      {grupos.length>0&&(
+        <div style={{marginBottom:14}}>
+          <Lbl t="Itens Inspecionados"/>
+          {grupos.map(g=>(
+            <div key={g.grupo} style={{marginBottom:8,borderRadius:12,border:"1.5px solid #1e3044",overflow:"hidden"}}>
+              <div style={{padding:"7px 13px",background:"#0d1e2e",fontSize:10,fontWeight:800,color:"#FF6B2B",letterSpacing:1,textTransform:"uppercase"}}>{g.grupo}</div>
+              {g.itens.map((item,i)=>(
+                <div key={item.id} style={{borderTop:"1px solid #111d2a",padding:"9px 13px",display:"flex",alignItems:"center",justifyContent:"space-between",background:i%2===0?"#091420":"#0a1520"}}>
+                  <span style={{fontSize:12,color:"#deeaf5",flex:1,marginRight:8}}>{item.label}</span>
+                  <div style={{display:"flex",gap:5}}>
+                    {["OK","X","N/A"].map(v=>(
+                      <button key={v} onClick={()=>toggleItem(item.id,v)} style={{width:30,height:26,borderRadius:6,fontSize:10,fontWeight:700,cursor:"pointer",fontFamily:"inherit",background:f.itens[item.id]===v?(v==="OK"?"#22C55E":v==="X"?"#ef4444":"#F59E0B")+"33":"transparent",border:"1.5px solid "+(f.itens[item.id]===v?(v==="OK"?"#22C55E":v==="X"?"#ef4444":"#F59E0B"):"#1e3044"),color:f.itens[item.id]===v?(v==="OK"?"#22C55E":v==="X"?"#ef4444":"#F59E0B"):"#4a6a7a"}}>{v}</button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
+      {grupos.length===0&&f.equipamento&&(
+        <div style={{padding:"12px",background:"#0d1e2e",borderRadius:10,marginBottom:14,fontSize:13,color:"#4a6a7a",textAlign:"center"}}>
+          Selecione um equipamento para ver os itens de inspecao
+        </div>
+      )}
+      <div style={{marginBottom:14}}>
+        <Lbl t="Resultado Geral"/>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
+          {["Conforme","Atencao","Nao Conforme"].map(r=>(
+            <div key={r} onClick={()=>set("resultado",r)} style={{padding:"10px 4px",borderRadius:10,textAlign:"center",cursor:"pointer",background:f.resultado===r?resCores[r]+"33":"#0a1520",border:"1.5px solid "+(f.resultado===r?resCores[r]:"#1e3044")}}>
+              <div style={{fontSize:11,fontWeight:700,color:f.resultado===r?resCores[r]:"#4a6a7a"}}>{r}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <Fld label="Observacoes / Anomalias">
+        <textarea style={{...C.input,minHeight:80,resize:"vertical"}} placeholder="Descreva anomalias encontradas..." value={f.observacoes} onChange={e=>set("observacoes",e.target.value)}/>
+      </Fld>
+      <Btn onClick={salvar} disabled={!valid||st==="saving"} full color={st==="ok"?"#22C55E":"#2E75B6"}>
+        {st==="saving"&&<Spin/>}{st==="ok"&&<IcoCheck s={16}/>}
+        {st==="saving"?"Salvando...":st==="ok"?"Inspecao Registrada!":"Registrar Inspecao"}
+      </Btn>
+    </div>
+  );
+}
+
+function FormOS({user, ordens, setOrdens, onBack}) {
+  const [f, setF] = useState({
+    equipamento:"", tipo:"Corretiva", prioridade:"Media",
+    descricao:"", tecnico:user.nome||"", dataPrevisao:"",
+    pecas:"", observacoes:"", status:"Solicitada",
+  });
+  const [st, setSt] = useState("idle");
+  const [categoria, setCategoria] = useState("");
+  const set = (k,v) => setF(p=>({...p,[k]:v}));
+  const eq = DEMO_EQUIPS.find(e=>e.id===f.equipamento);
+  const equipsCategoria = DEMO_EQUIPS.filter(e=>e.tipo===categoria);
+  const valid = f.equipamento && f.descricao && f.tecnico;
+  const priorCores = {"Baixa":"#22C55E","Media":"#F59E0B","Alta":"#FF6B2B","Emergencia":"#ef4444"};
+  const GRUPOS_E = ["Transportadora de Correia","Britador Conico","Britador de Mandibula","Peneira de Separacao","Alimentador","Outro"];
+
+  const salvar = () => {
+    if(!valid) return;
+    setSt("saving");
+    const nova = {
+      ...f, id:uid(), criadoEm:new Date().toISOString(),
+      criadoPor:user.nome, pedreira_id:user.pedreira_id,
+      pedreira_nome:user.pedreira_nome,
+      eq_nome:eq?.nome, eq_codigo:eq?.codigo,
+      numero:"OS-"+Date.now().toString(36).toUpperCase().slice(-6),
+    };
+    setOrdens(prev=>[nova,...prev]);
+    setSt("ok");
+    setTimeout(()=>{ onBack(); },1600);
+  };
+
+  return(
+    <div style={{paddingBottom:100}}>
+      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
+        <button onClick={onBack} style={{padding:"8px 12px",borderRadius:8,border:"1.5px solid #1e3044",background:"transparent",color:"#6a8a9a",fontSize:12,cursor:"pointer",fontFamily:"inherit"}}>
+          Voltar
+        </button>
+        <div style={{fontSize:16,fontWeight:800,color:"#deeaf5"}}>Nova Ordem de Servico</div>
+      </div>
+
+      <div style={{marginBottom:14}}>
+        <Lbl t="Prioridade *"/>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr 1fr",gap:8}}>
+          {["Baixa","Media","Alta","Emergencia"].map(p=>(
+            <div key={p} onClick={()=>set("prioridade",p)} style={{
+              padding:"9px 4px",borderRadius:10,textAlign:"center",cursor:"pointer",
+              background:f.prioridade===p?priorCores[p]+"33":"#0a1520",
+              border:"1.5px solid "+(f.prioridade===p?priorCores[p]:"#1e3044"),
+            }}>
+              <div style={{fontSize:11,fontWeight:700,color:f.prioridade===p?priorCores[p]:"#4a6a7a"}}>{p}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Fld label="Equipamento *">
+        <select style={C.input} value={f.equipamento} onChange={e=>set("equipamento",e.target.value)}>
+          <option value="">Selecione...</option>
+          {GRUPOS_E.map(g=>(
+            <optgroup key={g} label={g}>
+              {DEMO_EQUIPS.filter(e=>e.tipo===g).map(e=><option key={e.id} value={e.id}>{e.nome}</option>)}
+            </optgroup>
+          ))}
+        </select>
+        {eq&&<div style={{marginTop:6,padding:"6px 11px",background:"#0d1e2e",borderRadius:8,fontSize:12,color:"#5a8a9a"}}><span style={{color:"#FF6B2B",fontWeight:800}}>{eq.codigo}</span> - {eq.nome}</div>}
+      </Fld>
+
+      <Fld label="Tipo de Servico">
+        <select style={C.input} value={f.tipo} onChange={e=>set("tipo",e.target.value)}>
+          {["Corretiva","Preventiva","Preditiva","Inspecao","Emergencia","Melhoria"].map(t=><option key={t}>{t}</option>)}
+        </select>
+      </Fld>
+
+      <Fld label="Descricao do Servico *">
+        <textarea style={{...C.input,minHeight:90,resize:"vertical"}} placeholder="Descreva o servico necessario..." value={f.descricao} onChange={e=>set("descricao",e.target.value)}/>
+      </Fld>
+
+      <Fld label="Tecnico Responsavel *">
+        <input style={C.input} value={f.tecnico} onChange={e=>set("tecnico",e.target.value)}/>
+      </Fld>
+
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+        <Fld label="Data Prevista">
+          <input type="datetime-local" style={C.input} value={f.dataPrevisao} onChange={e=>set("dataPrevisao",e.target.value)}/>
+        </Fld>
+        <Fld label="Status">
+          <select style={C.input} value={f.status} onChange={e=>set("status",e.target.value)}>
+            {["Solicitada","Programada","Em andamento","Concluida"].map(s=><option key={s}>{s}</option>)}
+          </select>
+        </Fld>
+      </div>
+
+      <Fld label="Pecas / Materiais Necessarios">
+        <textarea style={{...C.input,minHeight:60,resize:"vertical"}} placeholder="Liste as pecas necessarias..." value={f.pecas} onChange={e=>set("pecas",e.target.value)}/>
+      </Fld>
+
+      <Fld label="Observacoes">
+        <textarea style={{...C.input,minHeight:60,resize:"vertical"}} placeholder="Informacoes adicionais..." value={f.observacoes} onChange={e=>set("observacoes",e.target.value)}/>
+      </Fld>
+
+      <Btn onClick={salvar} disabled={!valid||st==="saving"} full color={st==="ok"?"#a855f7":"#FF6B2B"}>
+        {st==="saving"&&<Spin/>}{st==="ok"&&<IcoCheck s={16}/>}
+        {st==="saving"?"Salvando...":st==="ok"?"OS Aberta!":"Abrir Ordem de Servico"}
+      </Btn>
+    </div>
+  );
+}
+
+// -- OS CARD --
+function OSCard({os, onUpdate, isManager}) {
+  const eq = DEMO_EQUIPS.find(e=>e.id===os.equipamento);
+  const STATUS_CORES = {"Solicitada":"#a855f7","Programada":"#2E75B6","Em andamento":"#FF6B2B","Concluida":"#22C55E"};
+  const PRIOR_CORES  = {"Baixa":"#22C55E","Media":"#F59E0B","Alta":"#FF6B2B","Emergencia":"#ef4444"};
+  const cor = STATUS_CORES[os.status]||"#7a9bb5";
+  const pc  = PRIOR_CORES[os.prioridade]||"#7a9bb5";
+  const fmtDT = iso => iso ? new Date(iso).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit",hour:"2-digit",minute:"2-digit"}) : "--";
+
+  return(
+    <div style={{background:"#0a1520",borderRadius:14,padding:15,marginBottom:12,border:"1.5px solid "+(os.prioridade==="Emergencia"?"#ef444444":"#172535"),position:"relative",overflow:"hidden"}}>
+      {os.prioridade==="Emergencia"&&<div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"linear-gradient(90deg,#ef4444,transparent)"}}/>}
+      <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:10}}>
+        <div style={{flex:1}}>
+          <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3,flexWrap:"wrap"}}>
+            <span style={{fontSize:10,fontWeight:800,color:"#a855f7"}}>{os.numero}</span>
+            <span style={{fontSize:11,fontWeight:700,padding:"2px 7px",borderRadius:20,background:cor+"22",color:cor,border:"1px solid "+cor+"44"}}>{os.status}</span>
+            <span style={{fontSize:11,fontWeight:700,padding:"2px 7px",borderRadius:20,background:pc+"22",color:pc,border:"1px solid "+pc+"44"}}>{os.prioridade}</span>
+          </div>
+          <div style={{fontSize:14,fontWeight:700,color:"#deeaf5"}}>{eq?.nome||os.equipamento}</div>
+          <div style={{fontSize:12,color:"#4a6a7a",marginTop:2}}>{os.tipo}</div>
+        </div>
+      </div>
+      <div style={{padding:"8px 10px",background:"#091420",borderRadius:8,fontSize:12,color:"#deeaf5",marginBottom:8}}>{os.descricao}</div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:8}}>
+        <Kv l="TECNICO"  v={os.tecnico}/>
+        <Kv l="ABERTURA" v={fmtDT(os.criadoEm)}/>
+        <Kv l="PREVISAO" v={os.dataPrevisao?fmtDT(os.dataPrevisao):"Nao definida"}/>
+        <Kv l="SOLICITADO" v={os.criadoPor}/>
+      </div>
+      {os.pecas&&<div style={{padding:"6px 10px",background:"#0a1f10",border:"1px solid #1a3a20",borderRadius:8,fontSize:12,color:"#22C55E",marginBottom:8}}>Pecas: {os.pecas}</div>}
+      {isManager&&(
+        <div style={{marginTop:10}}>
+          <Lbl t="Atualizar Status"/>
+          <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+            {["Solicitada","Programada","Em andamento","Concluida"].map(s=>(
+              <button key={s} onClick={()=>onUpdate(os.id,s)} style={{
+                padding:"6px 10px",borderRadius:8,fontSize:11,fontWeight:700,
+                cursor:"pointer",fontFamily:"inherit",
+                background:os.status===s?(STATUS_CORES[s]||"#7a9bb5")+"33":"transparent",
+                border:"1.5px solid "+(os.status===s?(STATUS_CORES[s]||"#7a9bb5"):"#1e3044"),
+                color:os.status===s?(STATUS_CORES[s]||"#7a9bb5"):"#4a6a7a",
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function OperadorForm({user, records, setRecords}) {
   const blank = () => ({equipamento:"",tipoManutencao:"",tcItens:{},penItens:{},brtItens:{},operador:user.nome||"",inicio:new Date().toISOString().slice(0,16),fim:"",horimetro:"",observacoes:"",status:"Em Andamento"});
   const [f, setF] = useState(blank());
@@ -1263,7 +1552,7 @@ function OperadorForm({user, records, setRecords}) {
   return(
     <div style={{paddingBottom:100}}>
 
-      {/* STEP 1 — Categoria */}
+      {/* STEP 1  -  Categoria */}
       <div style={{marginBottom:16}}>
         <Lbl t="1. Selecione a Categoria *"/>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
@@ -1286,7 +1575,7 @@ function OperadorForm({user, records, setRecords}) {
         </div>
       </div>
 
-      {/* STEP 2 — Equipamento */}
+      {/* STEP 2  -  Equipamento */}
       {categoria && (
         <div style={{marginBottom:16,animation:"fadeUp .2s ease"}}>
           <Lbl t="2. Selecione o Equipamento *"/>
@@ -1317,7 +1606,7 @@ function OperadorForm({user, records, setRecords}) {
       )}
 
       {/* Info do equipamento selecionado */}
-      {eq&&<div style={{marginBottom:10,padding:"8px 12px",background:"#0d1e2e",borderRadius:8,fontSize:12,color:"#5a8a9a",display:"flex",gap:7,alignItems:"center"}}><span style={{color:C.orange,fontWeight:800}}>{eq.codigo}</span><span>—</span><span style={{color:C.text,fontWeight:600}}>{eq.nome}</span></div>}
+      {eq&&<div style={{marginBottom:10,padding:"8px 12px",background:"#0d1e2e",borderRadius:8,fontSize:12,color:"#5a8a9a",display:"flex",gap:7,alignItems:"center"}}><span style={{color:C.orange,fontWeight:800}}>{eq.codigo}</span><span> - </span><span style={{color:C.text,fontWeight:600}}>{eq.nome}</span></div>}
 
       {/* Alerta de horimetro para britadores conicos */}
       {eq&&eq.tipo==="Britador Conico"&&(()=>{
@@ -1338,9 +1627,9 @@ function OperadorForm({user, records, setRecords}) {
               <IcoAlert s={16}/>
               <div>
                 <div style={{fontSize:13,fontWeight:700,color:cor}}>
-                  {vencido?`⚠️ REVESTIMENTO VENCIDO! ${Math.abs(Math.round(faltam))}h em atraso`:`⚠️ Trocar revestimento em ${Math.round(faltam)}h`}
+                  {vencido?`! REVESTIMENTO VENCIDO! ${Math.abs(Math.round(faltam))}h em atraso`:`! Trocar revestimento em ${Math.round(faltam)}h`}
                 </div>
-                <div style={{fontSize:11,color:C.muted,marginTop:2}}>Manto e côncavo — verificar na gerência</div>
+                <div style={{fontSize:11,color:C.muted,marginTop:2}}>Manto e côncavo  -  verificar na gerência</div>
               </div>
             </div>
           );
@@ -1392,9 +1681,9 @@ function OperadorForm({user, records, setRecords}) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 // MANUTENCAO CARD
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 function ManutCard({rec, onFinish, onDelete}) {
   const cor = COR_ST[rec.status]||C.orange;
   const ativo = rec.status==="Em Andamento";
@@ -1445,10 +1734,10 @@ function ManutCard({rec, onFinish, onDelete}) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════
+// ===========================================================
 // DASHBOARD GERENCIA / ADMIN
-// ═══════════════════════════════════════════════════════════
-function Dashboard({records, setRecords, user}) {
+// ===========================================================
+function Dashboard({records, setRecords, ordens=[], setOrdens=()=>{}, user}) {
   const now = new Date();
   const [aba, setAba]         = useState("graficos");
   const [periodo, setPeriodo] = useState("mes");
@@ -1456,7 +1745,7 @@ function Dashboard({records, setRecords, user}) {
   const [fs, setFs]           = useState({q:"",status:""});
   const [eqDetalhe, setEqDetalhe] = useState(null);
 
-  // ── Alertas de Horimetro ──
+  // -- Alertas de Horimetro --
   const SK_ALERTAS = "maintenpro_alertas_v1";
   const [alertas, setAlertas] = useState(()=>{
     try{const r=localStorage.getItem(SK_ALERTAS);return r?JSON.parse(r):{};}catch{return{};}
@@ -1471,7 +1760,7 @@ function Dashboard({records, setRecords, user}) {
     setModalAlerta(null);
   };
 
-  // Britadores conicos — calcular horimetro atual e status do alerta
+  // Britadores conicos  -  calcular horimetro atual e status do alerta
   const britadoresCOnicos = DEMO_EQUIPS.filter(e=>e.tipo==="Britador Conico");
   const getStatusAlerta = (eqId) => {
     const cfg = alertas[eqId];
@@ -1488,12 +1777,12 @@ function Dashboard({records, setRecords, user}) {
     const faltam = cfg.intervalo - hUsado;
     if(faltam<=0)       return {nivel:"vencido",  cor:"#ef4444", texto:`VENCIDO! ${Math.abs(Math.round(faltam))}h atraso`, hUsado, faltam, pct:100};
     if(faltam<=cfg.aviso) return {nivel:"alerta",   cor:C.yellow,  texto:`Trocar em ${Math.round(faltam)}h`, hUsado, faltam, pct};
-    return                       {nivel:"ok",       cor:C.green,   texto:`OK — ${Math.round(faltam)}h restantes`, hUsado, faltam, pct};
+    return                       {nivel:"ok",       cor:C.green,   texto:`OK  -  ${Math.round(faltam)}h restantes`, hUsado, faltam, pct};
   };
 
   const alertasAtivos = britadoresCOnicos.map(e=>({...e, status:getStatusAlerta(e.id)})).filter(e=>e.status&&e.status.nivel!=="ok");
 
-  // ── Filtro por periodo ──
+  // -- Filtro por periodo --
   const recPeriodo = records.filter(r=>{
     if(!r.criadoEm) return false;
     const d = new Date(r.criadoEm);
@@ -1506,11 +1795,11 @@ function Dashboard({records, setRecords, user}) {
   const recFiltrado = eqFiltro ? recPeriodo.filter(r=>(r.eq_codigo||r.equipamento)===eqFiltro) : recPeriodo;
   const equipsUniq  = [...new Set(recPeriodo.map(r=>r.eq_codigo||r.equipamento))].filter(Boolean);
 
-  // ── Graficos ──
+  // -- Graficos --
   const dadosOcorr  = equipsUniq.map(id=>({id,nome:id,v:recPeriodo.filter(r=>(r.eq_codigo||r.equipamento)===id).length})).sort((a,b)=>b.v-a.v).slice(0,8);
   const dadosParada = equipsUniq.map(id=>{const mins=recPeriodo.filter(r=>(r.eq_codigo||r.equipamento)===id&&r.inicio&&r.fim).reduce((a,r)=>a+Math.floor((new Date(r.fim)-new Date(r.inicio))/60000),0);return{id,nome:id,v:mins};}).filter(d=>d.v>0).sort((a,b)=>b.v-a.v).slice(0,8);
 
-  // ── Disponibilidade (horas disponiveis - horas paradas / horas disponiveis * 100) ──
+  // -- Disponibilidade (horas disponiveis - horas paradas / horas disponiveis * 100) --
   const horasNoPeriodo = periodo==="hoje"?24:periodo==="sem"?168:periodo==="mes"?new Date(now.getFullYear(),now.getMonth()+1,0).getDate()*24:8760;
   const dadosDisp = equipsUniq.map(id=>{
     const mins = recPeriodo.filter(r=>(r.eq_codigo||r.equipamento)===id&&r.inicio&&r.fim).reduce((a,r)=>a+Math.floor((new Date(r.fim)-new Date(r.inicio))/60000),0);
@@ -1518,7 +1807,7 @@ function Dashboard({records, setRecords, user}) {
     return{id,nome:id,v:Math.round(disp)};
   }).sort((a,b)=>a.v-b.v).slice(0,8);
 
-  // ── Comparativo mes a mes (ultimos 6 meses) ──
+  // -- Comparativo mes a mes (ultimos 6 meses) --
   const meses = Array.from({length:6},(_,i)=>{
     const d = new Date(now.getFullYear(),now.getMonth()-5+i,1);
     return{label:d.toLocaleDateString("pt-BR",{month:"short",year:"2-digit"}),mes:d.getMonth(),ano:d.getFullYear()};
@@ -1529,7 +1818,7 @@ function Dashboard({records, setRecords, user}) {
     v:records.filter(r=>r.criadoEm&&new Date(r.criadoEm).getMonth()===m.mes&&new Date(r.criadoEm).getFullYear()===m.ano).length
   }));
 
-  // ── Pecas trocadas ──
+  // -- Pecas trocadas --
   const contarPeca = (tipo) => {
     let total = 0;
     recPeriodo.forEach(r=>{
@@ -1552,7 +1841,7 @@ function Dashboard({records, setRecords, user}) {
     {label:"Tambores do Pe",      v:contarPeca("tp"),  cor:"#06b6d4"},
   ].filter(p=>p.v>0);
 
-  // ── Stats gerais ──
+  // -- Stats gerais --
   const totalMins = recFiltrado.filter(r=>r.fim).reduce((a,r)=>a+Math.floor((new Date(r.fim)-new Date(r.inicio))/60000),0);
   const stats=[
     ["Total",recFiltrado.length,"#7a9bb5"],
@@ -1575,31 +1864,31 @@ function Dashboard({records, setRecords, user}) {
     </button>
   );
 
-  // ── Gerar resumo WhatsApp ──
+  // -- Gerar resumo WhatsApp --
   const enviarWhatsApp = () => {
     const hoje = now.toLocaleDateString("pt-BR");
     const ativos = records.filter(r=>r.status==="Em Andamento");
-    let msg = `🔧 *RELATÓRIO DE MANUTENÇÃO*
+    let msg = ` *RELATÓRIO DE MANUTENÇÃO*
 `;
-    msg += `📅 ${hoje}
+    msg += ` ${hoje}
 `;
-    msg += `━━━━━━━━━━━━━━━━━━
+    msg += `------------------
 `;
-    msg += `📊 *RESUMO DO PERÍODO*
+    msg += ` *RESUMO DO PERÍODO*
 `;
-    msg += `• Total de registros: ${recFiltrado.length}
+    msg += `* Total de registros: ${recFiltrado.length}
 `;
-    msg += `• Em andamento: ${recFiltrado.filter(r=>r.status==="Em Andamento").length}
+    msg += `* Em andamento: ${recFiltrado.filter(r=>r.status==="Em Andamento").length}
 `;
-    msg += `• Concluídas: ${recFiltrado.filter(r=>r.status==="Concluida").length}
+    msg += `* Concluídas: ${recFiltrado.filter(r=>r.status==="Concluida").length}
 `;
-    msg += `• Tempo total parado: ${totalMins>=60?Math.floor(totalMins/60)+"h "+totalMins%60+"min":totalMins+"min"}
+    msg += `* Tempo total parado: ${totalMins>=60?Math.floor(totalMins/60)+"h "+totalMins%60+"min":totalMins+"min"}
 `;
     if(ativos.length>0){
       msg += `
-⚠️ *EM ANDAMENTO AGORA*
+! *EM ANDAMENTO AGORA*
 `;
-      ativos.forEach(r=>{ msg += `• ${r.eq_codigo||""} - ${r.eq_nome||""} (${r.operador||""})
+      ativos.forEach(r=>{ msg += `* ${r.eq_codigo||""} - ${r.eq_nome||""} (${r.operador||""})
 `; });
     }
     msg += `
@@ -1607,7 +1896,7 @@ _Ceballos MaintenPro_`;
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,"_blank");
   };
 
-  // ── Imprimir relatorio ──
+  // -- Imprimir relatorio --
   const imprimir = () => {
     const hoje = now.toLocaleDateString("pt-BR");
     const conteudo = `
@@ -1627,7 +1916,7 @@ _Ceballos MaintenPro_`;
         .andamento{background:#FF6B2B22;color:#FF6B2B}
         .concluida{background:#22C55E22;color:#22C55E}
       </style></head><body>
-      <h1>🔧 Ceballos MaintenPro — Relatório de Manutenção</h1>
+      <h1> Ceballos MaintenPro  -  Relatório de Manutenção</h1>
       <p><strong>Período:</strong> ${periodo==="mes"?"Mês atual":periodo==="sem"?"Últimos 7 dias":periodo==="hoje"?"Hoje":"Todo o período"} &nbsp;|&nbsp; <strong>Gerado em:</strong> ${hoje}</p>
       <div>
         <div class="stat"><div class="stat-v">${recFiltrado.length}</div><div class="stat-l">TOTAL</div></div>
@@ -1652,7 +1941,7 @@ _Ceballos MaintenPro_`;
           </tr>`;
         }).join("")}
       </table>
-      <p style="margin-top:30px;font-size:11px;color:#999;text-align:center">Ceballos MaintenPro © — Eng. Sergio Cardoso</p>
+      <p style="margin-top:30px;font-size:11px;color:#999;text-align:center">Ceballos MaintenPro (c)  -  Eng. Sergio Cardoso</p>
       </body></html>
     `;
     const w = window.open("","_blank");
@@ -1661,7 +1950,7 @@ _Ceballos MaintenPro_`;
     w.print();
   };
 
-  // ── Historico por equipamento ──
+  // -- Historico por equipamento --
   const recEqDetalhe = eqDetalhe ? records.filter(r=>(r.eq_codigo||r.equipamento)===eqDetalhe) : [];
 
   return(
@@ -1670,14 +1959,14 @@ _Ceballos MaintenPro_`;
       {/* ABAS */}
       <div style={{display:"flex",background:"#091420",borderRadius:10,padding:3,marginBottom:16,border:`1.5px solid ${C.border}`}}>
         {abaBt("graficos",  "Graficos",  <IcoChart s={12}/>)}
-        {abaBt("alertas",   alertasAtivos.length>0?"🔴 Alertas":"Alertas", <IcoAlert s={12}/>)}
+        {abaBt("alertas",   alertasAtivos.length>0?" Alertas":"Alertas", <IcoAlert s={12}/>)}
         {abaBt("pecas",     "Pecas",     <IcoWrench s={12}/>)}
         {abaBt("historico", "Historico", <IcoList s={12}/>)}
         {abaBt("lista",     "Registros", <IcoGear s={12}/>)}
       </div>
 
-      {/* ── GRAFICOS ── */}
-      {/* ── ALERTAS DE HORIMETRO ── */}
+      {/* -- GRAFICOS -- */}
+      {/* -- ALERTAS DE HORIMETRO -- */}
       {aba==="alertas"&&(
         <>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
@@ -1746,4 +2035,430 @@ _Ceballos MaintenPro_`;
           {/* Modal configurar alerta */}
           {modalAlerta&&(
             <Modal title="Configurar Alerta de Horímetro" onClose={()=>setModalAlerta(null)}>
-              <div style={{padding:"8px 12px",background:"#0d
+              <div style={{padding:"8px 12px",background:"#0d1e2e",borderRadius:8,fontSize:13,color:C.muted,marginBottom:16}}>
+                <strong style={{color:C.orange}}>{britadoresCOnicos.find(e=>e.id===modalAlerta)?.nome}</strong>
+                <div style={{marginTop:4,fontSize:12}}>Defina quando alertar para troca do revestimento (manto e côncavo)</div>
+              </div>
+
+              <Fld label="Intervalo de troca (horas)">
+                <input type="number" style={C.input} placeholder="Ex: 400" value={alertaForm.intervalo}
+                  onChange={e=>setAlertaForm(p=>({...p,intervalo:e.target.value}))}/>
+                <div style={{fontSize:11,color:C.muted,marginTop:4}}>A cada quantas horas de operação trocar o revestimento</div>
+              </Fld>
+
+              <Fld label="Avisar com antecedência (horas)">
+                <input type="number" style={C.input} placeholder="Ex: 50" value={alertaForm.aviso}
+                  onChange={e=>setAlertaForm(p=>({...p,aviso:e.target.value}))}/>
+                <div style={{fontSize:11,color:C.muted,marginTop:4}}>Quantas horas antes do vencimento emitir o alerta amarelo</div>
+              </Fld>
+
+              <div style={{padding:"10px 12px",background:"#0a1520",borderRadius:8,fontSize:12,color:C.muted,marginBottom:16}}>
+                <div style={{fontWeight:700,color:C.text,marginBottom:4}}>Exemplo com os valores acima:</div>
+                <div> <strong>OK</strong>  -  abaixo de {Math.max(0,(parseInt(alertaForm.intervalo)||400)-(parseInt(alertaForm.aviso)||50))}h</div>
+                <div> <strong>Alerta</strong>  -  entre {Math.max(0,(parseInt(alertaForm.intervalo)||400)-(parseInt(alertaForm.aviso)||50))}h e {alertaForm.intervalo||400}h</div>
+                <div> <strong>Vencido</strong>  -  acima de {alertaForm.intervalo||400}h sem troca</div>
+              </div>
+
+              <div style={{display:"flex",gap:8}}>
+                <Btn onClick={()=>setModalAlerta(null)} outline full>Cancelar</Btn>
+                <Btn onClick={salvarAlerta} full disabled={!alertaForm.intervalo||!alertaForm.aviso}>
+                  <IcoCheck s={14}/> Salvar Alerta
+                </Btn>
+              </div>
+            </Modal>
+          )}
+        </>
+      )}
+
+      {aba==="ordens"&&(
+        <div style={{paddingBottom:80}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+            <div style={{fontSize:16,fontWeight:800}}>Ordens de Servico</div>
+          </div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
+            {[["Solicitadas",ordens.filter(o=>o.status==="Solicitada").length,"#a855f7"],
+              ["Programadas",ordens.filter(o=>o.status==="Programada").length,"#2E75B6"],
+              ["Em Andamento",ordens.filter(o=>o.status==="Em andamento").length,"#FF6B2B"],
+              ["Concluidas",ordens.filter(o=>o.status==="Concluida").length,"#22C55E"],
+            ].map(([l,v,cor])=>(
+              <div key={l} style={{background:"#0a1520",border:"1.5px solid #172535",borderRadius:12,padding:"13px 14px"}}>
+                <div style={{fontSize:10,color:"#3a5a6a",marginBottom:3}}>{l.toUpperCase()}</div>
+                <div style={{fontSize:26,fontWeight:900,color:cor}}>{v}</div>
+              </div>
+            ))}
+          </div>
+          {ordens.length===0
+            ?<div style={{textAlign:"center",padding:44,background:"#0a1520",borderRadius:12,border:"1.5px dashed #172535"}}><div style={{fontSize:36,marginBottom:8}}></div><div style={{color:"#4a6a7a"}}>Nenhuma OS registrada</div></div>
+            :ordens.map(os=><OSCard key={os.id} os={os} isManager={true} onUpdate={(id,status)=>setOrdens(ordens.map(o=>o.id===id?{...o,status}:o))}/>)
+          }
+        </div>
+      )}
+
+      {aba==="graficos"&&(
+        <>
+          {/* Filtros */}
+          <Card style={{marginBottom:14}}>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:8}}>
+              <div>
+                <Lbl t="Periodo"/>
+                <select style={si} value={periodo} onChange={e=>setPeriodo(e.target.value)}>
+                  <option value="hoje">Hoje</option>
+                  <option value="sem">Ultimos 7 dias</option>
+                  <option value="mes">Mes atual</option>
+                  <option value="tudo">Tudo</option>
+                </select>
+              </div>
+              <div>
+                <Lbl t="Equipamento"/>
+                <select style={si} value={eqFiltro} onChange={e=>setEqFiltro(e.target.value)}>
+                  <option value="">Todos</option>
+                  {equipsUniq.map(id=><option key={id} value={id}>{id}</option>)}
+                </select>
+              </div>
+            </div>
+          </Card>
+
+          {/* Stats */}
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
+            {stats.map(([l,v,cor])=>(
+              <Card key={l}>
+                <div style={{fontSize:10,color:"#3a5a6a",marginBottom:3}}>{l.toUpperCase()}</div>
+                <div style={{fontSize:26,fontWeight:900,color:cor}}>
+                  {l==="Tempo Parado"?(v>=60?Math.floor(v/60)+"h "+v%60+"min":v+"min"):v}
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          {/* Grafico ocorrencias */}
+          <Card style={{marginBottom:14}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+              <div><div style={{fontSize:13,fontWeight:800}}>Ranking de Paradas</div><div style={{fontSize:11,color:C.muted}}>Equipamentos com mais ocorrencias</div></div>
+            </div>
+            <BarChart dados={dadosOcorr} cor={C.orange} unidade="n"/>
+          </Card>
+
+          {/* Grafico tempo */}
+          <Card style={{marginBottom:14}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+              <div><div style={{fontSize:13,fontWeight:800}}>Tempo de Parada</div><div style={{fontSize:11,color:C.muted}}>Horas fora de operacao</div></div>
+            </div>
+            <BarChart dados={dadosParada} cor={C.yellow} unidade="h"/>
+          </Card>
+
+          {/* Grafico disponibilidade */}
+          <Card style={{marginBottom:14}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+              <div><div style={{fontSize:13,fontWeight:800}}>Disponibilidade (%)</div><div style={{fontSize:11,color:C.muted}}>% do tempo em operacao</div></div>
+            </div>
+            <BarChart dados={dadosDisp} cor={C.green} unidade="n"/>
+          </Card>
+
+          {/* Comparativo mensal */}
+          <Card style={{marginBottom:14}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+              <div><div style={{fontSize:13,fontWeight:800}}>Comparativo Mensal</div><div style={{fontSize:11,color:C.muted}}>Ultimos 6 meses</div></div>
+            </div>
+            <BarChart dados={dadosMensal} cor="#a855f7" unidade="n"/>
+          </Card>
+
+          {/* Botoes relatorio */}
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+            <Btn onClick={enviarWhatsApp} color="#25D366" full>
+              <svg width={16} height={16} viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              WhatsApp
+            </Btn>
+            <Btn onClick={imprimir} color="#1e3a5f" full>
+              <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Imprimir
+            </Btn>
+          </div>
+        </>
+      )}
+
+      {/* -- PECAS TROCADAS -- */}
+      {aba==="pecas"&&(
+        <>
+          <Card style={{marginBottom:14}}>
+            <Lbl t="Periodo"/>
+            <select style={si} value={periodo} onChange={e=>setPeriodo(e.target.value)}>
+              <option value="hoje">Hoje</option>
+              <option value="sem">Ultimos 7 dias</option>
+              <option value="mes">Mes atual</option>
+              <option value="tudo">Tudo</option>
+            </select>
+          </Card>
+
+          <Card style={{marginBottom:14}}>
+            <div style={{fontSize:13,fontWeight:800,marginBottom:14}}>Pecas Trocadas nas Transportadoras</div>
+            {pecas.length===0
+              ?<div style={{textAlign:"center",padding:20,color:C.muted}}>Sem dados de pecas no periodo</div>
+              :pecas.map(p=>(
+                <div key={p.label} style={{marginBottom:14}}>
+                  <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
+                    <span style={{fontSize:13,color:C.text,fontWeight:600}}>{p.label}</span>
+                    <span style={{fontSize:13,color:p.cor,fontWeight:800}}>{p.v} unid.</span>
+                  </div>
+                  <div style={{height:8,background:"#0d1820",borderRadius:4,overflow:"hidden"}}>
+                    <div style={{height:"100%",width:Math.min(100,(p.v/Math.max(...pecas.map(x=>x.v)))*100)+"%",background:p.cor,borderRadius:4}}/>
+                  </div>
+                </div>
+              ))
+            }
+          </Card>
+
+          {/* Pecas por equipamento */}
+          <Card>
+            <div style={{fontSize:13,fontWeight:800,marginBottom:12}}>Roletes por Transportadora</div>
+            {equipsUniq.filter(id=>id.startsWith("TC")).map(id=>{
+              const recs = recPeriodo.filter(r=>(r.eq_codigo||r.equipamento)===id);
+              const qtdRoletes = recs.reduce((a,r)=>{
+                if(!r.tcItens) return a;
+                return a + (parseInt(r.tcItens["rc"]?.qty)||0) + (parseInt(r.tcItens["rr"]?.qty)||0) + (parseInt(r.tcItens["ri"]?.qty)||0);
+              },0);
+              if(qtdRoletes===0) return null;
+              return(
+                <div key={id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 0",borderBottom:`1px solid ${C.border}`}}>
+                  <span style={{fontSize:13,color:C.text,fontWeight:600}}>{id}</span>
+                  <span style={{fontSize:13,color:C.orange,fontWeight:800}}>{qtdRoletes} roletes</span>
+                </div>
+              );
+            })}
+          </Card>
+        </>
+      )}
+
+      {/* -- HISTORICO POR EQUIPAMENTO -- */}
+      {aba==="historico"&&(
+        <>
+          <Card style={{marginBottom:14}}>
+            <Lbl t="Selecione o Equipamento"/>
+            <select style={si} value={eqDetalhe||""} onChange={e=>setEqDetalhe(e.target.value||null)}>
+              <option value="">Selecione...</option>
+              {[...new Set(records.map(r=>r.eq_codigo||r.equipamento))].filter(Boolean).sort().map(id=>(
+                <option key={id} value={id}>{id}  -  {records.find(r=>(r.eq_codigo||r.equipamento)===id)?.eq_nome||""}</option>
+              ))}
+            </select>
+          </Card>
+
+          {eqDetalhe&&(
+            <>
+              {/* Resumo do equipamento */}
+              <Card style={{marginBottom:14,borderColor:C.orange+"44"}}>
+                <div style={{fontSize:15,fontWeight:800,color:C.orange,marginBottom:10}}>{eqDetalhe}</div>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
+                  <Kv l="MANUTENCOES" v={recEqDetalhe.length}/>
+                  <Kv l="CONCLUIDAS" v={recEqDetalhe.filter(r=>r.status==="Concluida").length}/>
+                  <Kv l="HORAS PARADO" v={(()=>{const m=recEqDetalhe.filter(r=>r.fim).reduce((a,r)=>a+Math.floor((new Date(r.fim)-new Date(r.inicio))/60000),0);return m>=60?Math.floor(m/60)+"h":m+"min";})()}/>
+                </div>
+              </Card>
+
+              {/* Historico completo */}
+              <div style={{fontSize:13,fontWeight:700,color:C.muted,marginBottom:10}}>HISTÓRICO COMPLETO ({recEqDetalhe.length} registros)</div>
+              {recEqDetalhe.length===0
+                ?<Card style={{textAlign:"center",padding:30}}><div style={{color:C.muted}}>Nenhum registro para este equipamento</div></Card>
+                :recEqDetalhe.map(r=><ManutCard key={r.id} rec={r} onFinish={fin} onDelete={del}/>)
+              }
+            </>
+          )}
+
+          {!eqDetalhe&&(
+            <Card style={{textAlign:"center",padding:44}}>
+              <div style={{fontSize:36,marginBottom:8}}></div>
+              <div style={{color:C.muted}}>Selecione um equipamento para ver o historico completo</div>
+            </Card>
+          )}
+        </>
+      )}
+
+      {/* -- LISTA GERAL -- */}
+      {aba==="lista"&&(
+        <>
+          <Card style={{marginBottom:14}}>
+            <input style={{...C.input,marginBottom:8}} placeholder="Buscar equipamento, tecnico..." value={fs.q} onChange={e=>setFs(p=>({...p,q:e.target.value}))}/>
+            <select style={si} value={fs.status} onChange={e=>setFs(p=>({...p,status:e.target.value}))}>
+              <option value="">Todos status</option>{Object.keys(COR_ST).map(s=><option key={s}>{s}</option>)}
+            </select>
+          </Card>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+            <span style={{fontSize:13,color:C.muted}}>{filtered.length} registro{filtered.length!==1?"s":""}</span>
+          </div>
+          {filtered.length===0
+            ?<Card style={{textAlign:"center",padding:44}}><div style={{fontSize:36,marginBottom:8}}></div><div style={{color:C.muted}}>Nenhum registro encontrado</div></Card>
+            :filtered.map(r=><ManutCard key={r.id} rec={r} onFinish={fin} onDelete={del}/>)
+          }
+        </>
+      )}
+    </div>
+  );
+}
+
+// ===========================================================
+// APP PRINCIPAL
+// ===========================================================
+export default function App() {
+  const [user, setUser]       = useState(null);
+  const [records, setRecords] = useState([]);
+  const [ordens, setOrdens]   = useState([]);
+  const [tab, setTab]         = useState("novo");
+  const [adminTab, setAdminTab] = useState("pedreiras");
+  const [tick, setTick]       = useState(new Date());
+
+  useEffect(()=>{ const t=setInterval(()=>setTick(new Date()),30000); return()=>clearInterval(t); },[]);
+
+  const logout = () => { setUser(null); setRecords([]); setTab("novo"); };
+
+  const finOp = (rec) => setRecords(records.map(r=>r.id===rec.id?{...r,fim:new Date().toISOString(),status:"Concluida"}:r));
+
+  const activeN = records.filter(r=>r.status==="Em Andamento").length;
+
+  if(!user) return <LoginPage onLogin={u=>{setUser(u);}}/>;
+
+  const tabB = (id,label,icon) => ({
+    flex:1,padding:"9px 6px",borderRadius:9,
+    background:tab===id?"#111e2e":"transparent",
+    border:tab===id?"1.5px solid #1e3044":"1.5px solid transparent",
+    color:tab===id?C.text:C.muted,fontSize:12,fontWeight:700,cursor:"pointer",
+    display:"flex",alignItems:"center",justifyContent:"center",gap:5,fontFamily:"inherit"
+  });
+
+  const adminTabB = (id,label) => ({
+    flex:1,padding:"8px 4px",borderRadius:8,
+    background:adminTab===id?C.orange+"22":"transparent",
+    border:adminTab===id?`1px solid ${C.orange}44`:"1px solid transparent",
+    color:adminTab===id?C.orange:C.muted,fontSize:11,fontWeight:700,cursor:"pointer",
+    fontFamily:"inherit",
+  });
+
+  return(
+    <div style={{minHeight:"100vh",background:C.bg,color:C.text,fontFamily:"'Barlow','Segoe UI',sans-serif",maxWidth:480,margin:"0 auto"}}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@700;800;900&display=swap');
+        *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+        select option{background:#0a1520;color:#deeaf5}
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator{filter:invert(.55)}
+        ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:#1e3044;border-radius:3px}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+        @keyframes fadeUp{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+      `}</style>
+
+      {/* HEADER */}
+      <div style={{background:C.bg,borderBottom:`1px solid ${C.border}`,padding:"13px 15px 11px",position:"sticky",top:0,zIndex:99}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:11}}>
+          <div>
+            <div style={{fontSize:20,fontWeight:900,fontFamily:"'Barlow Condensed',sans-serif",color:C.orange,letterSpacing:.5,lineHeight:1}}>CEBALLOS</div>
+            <div style={{fontSize:13,fontWeight:700,color:C.text,lineHeight:1.2}}>MaintenPro</div>
+            {user.pedreira_nome&&<div style={{fontSize:10,color:C.muted,marginTop:2}}>{user.pedreira_nome}</div>}
+          </div>
+          <div style={{textAlign:"right"}}>
+            <div style={{fontSize:11,color:C.muted}}>{tick.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit"})}</div>
+            <div style={{fontSize:13,fontWeight:700}}>{tick.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}</div>
+            <div style={{display:"flex",alignItems:"center",gap:6,justifyContent:"flex-end",marginTop:3}}>
+              <Tag label={user.perfil} color={user.perfil==="admin"?"#a855f7":user.perfil==="gerente"?C.yellow:C.orange}/>
+              {activeN>0&&<div style={{fontSize:11,color:C.orange,fontWeight:700,display:"flex",alignItems:"center",gap:3}}><span style={{width:5,height:5,borderRadius:"50%",background:C.orange,animation:"pulse 1.4s infinite"}}/>{activeN}</div>}
+            </div>
+          </div>
+        </div>
+
+        {/* USER INFO + LOGOUT */}
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"7px 10px",background:"#0a1520",borderRadius:10,border:`1px solid ${C.border}`,marginBottom:10}}>
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <div style={{width:28,height:28,borderRadius:"50%",background:C.orange+"22",border:`1.5px solid ${C.orange}44`,display:"flex",alignItems:"center",justifyContent:"center",color:C.orange}}>
+              <IcoUser s={13}/>
+            </div>
+            <div style={{fontSize:12,fontWeight:600,color:C.text}}>{user.nome}</div>
+          </div>
+          <button onClick={logout} style={{background:"transparent",border:"none",color:C.muted,cursor:"pointer",display:"flex",alignItems:"center",gap:4,fontSize:11,fontFamily:"inherit"}}>
+            <IcoLogout s={13}/> Sair
+          </button>
+        </div>
+
+        {/* TABS POR PERFIL */}
+        {user.perfil==="admin"&&(
+          <div style={{display:"flex",gap:4}}>
+            {[["pedreiras","Pedreiras",<IcoBuilding s={11}/>],["usuarios","Usuarios",<IcoUser s={11}/>],["equipamentos","Equipamentos",<IcoGear s={11}/>],["dashboard","Dashboard",<IcoChart s={11}/>]].map(([id,label,icon])=>(
+              <button key={id} onClick={()=>setAdminTab(id)} style={adminTabB(id,label)}>
+                {icon} {label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {user.perfil==="gerente"&&(
+          <div style={{display:"flex",background:"#091420",borderRadius:10,padding:3,border:`1.5px solid ${C.border}`}}>
+            <button style={tabB("dashboard","Dashboard",<IcoChart s={13}/>)} onClick={()=>setTab("dashboard")}><IcoChart s={13}/>Dashboard</button>
+            <button style={tabB("historico","Historico",<IcoList s={13}/>)} onClick={()=>setTab("historico")}><IcoList s={13}/>Historico</button>
+          </div>
+        )}
+
+        {user.perfil==="operador"&&(
+          <div style={{display:"flex",background:"#091420",borderRadius:10,padding:3,border:`1.5px solid ${C.border}`}}>
+            <button style={tabB("novo","Registrar",<IcoPlus s={13}/>)} onClick={()=>setTab("novo")}><IcoPlus s={13}/>Registrar</button>
+            <button style={tabB("historico","Historico",<IcoList s={13}/>)} onClick={()=>setTab("historico")}><IcoList s={13}/>Historico ({records.length})</button>
+          </div>
+        )}
+      </div>
+
+      {/* CONTENT */}
+      <div style={{padding:"16px 14px",animation:"fadeUp .2s ease"}}>
+
+        {/* ADMIN */}
+        {user.perfil==="admin"&&(
+          <>
+            {adminTab==="pedreiras"&&<AdminPedreiras/>}
+            {adminTab==="usuarios"&&<AdminUsuarios/>}
+            {adminTab==="equipamentos"&&<AdminEquipamentos/>}
+            {adminTab==="dashboard"&&<Dashboard records={records} setRecords={setRecords} ordens={ordens} setOrdens={setOrdens} user={user}/>}
+          </>
+        )}
+
+        {/* GERENTE */}
+        {user.perfil==="gerente"&&(
+          <Dashboard records={records} setRecords={setRecords} ordens={ordens} setOrdens={setOrdens} user={user}/>
+        )}
+
+        {/* OPERADOR */}
+        {user.perfil==="operador"&&(
+          <>
+            {/* Seletor sempre visivel exceto historico e os */}
+            {(tab==="novo"||tab==="inspecao_form"||tab==="os_form")&&(
+              <SeletorTipo
+                tipo={tab==="inspecao_form"?"inspecao":tab==="os_form"?"os":"manutencao"}
+                onChange={t=>{
+                  if(t==="os") setTab("os_form");
+                  else if(t==="inspecao") setTab("inspecao_form");
+                  else setTab("novo");
+                }}
+              />
+            )}
+            {tab==="novo"&&<OperadorForm user={user} records={records} setRecords={setRecords}/>}
+            {tab==="inspecao_form"&&<FormInspecao user={user} records={records} setRecords={setRecords} onBack={()=>setTab("novo")}/>}
+            {tab==="os_form"&&<FormOS user={user} ordens={ordens} setOrdens={setOrdens} onBack={()=>setTab("os")}/>}
+            {tab==="os"&&(
+              <div style={{paddingBottom:80}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+                  <div style={{fontSize:16,fontWeight:800}}>Ordens de Servico</div>
+                  <Btn onClick={()=>setTab("os_form")} sm><IcoPlus s={14}/> Nova OS</Btn>
+                </div>
+                {ordens.length===0
+                  ?<div style={{textAlign:"center",padding:44,background:"#0a1520",borderRadius:12,border:"1.5px dashed #172535"}}><div style={{fontSize:36,marginBottom:8}}></div><div style={{color:"#4a6a7a"}}>Nenhuma OS aberta ainda</div></div>
+                  :ordens.map(os=><OSCard key={os.id} os={os} isManager={false} onUpdate={()=>{}}/>)
+                }
+              </div>
+            )}
+            {tab==="historico"&&(
+              records.length===0
+                ?<Card style={{textAlign:"center",padding:44}}><div style={{fontSize:36,marginBottom:8}}></div><div style={{color:C.muted}}>Nenhum registro ainda.</div></Card>
+                :records.map(r=><ManutCard key={r.id} rec={r} onFinish={finOp} onDelete={null}/>)
+            )}
+          </>
+        )}
+      </div>
+
+      <div style={{textAlign:"center",padding:"8px 16px 20px",fontSize:11,color:"#1a2e3e"}}>
+        Ceballos MaintenPro (c) 2025  -  Eng. Sergio Cardoso
+      </div>
+    </div>
+  );
+}
