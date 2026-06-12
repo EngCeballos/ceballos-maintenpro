@@ -3,8 +3,8 @@ import { useState, useEffect, useCallback } from "react";
 // ===========================================================
 // SUPABASE CONFIG  -  substitua pela sua URL e chave anon
 // ===========================================================
-const SUPABASE_URL = "YOUR_SUPABASE_URL";
-const SUPABASE_KEY = "YOUR_SUPABASE_ANON_KEY";
+const SUPABASE_URL = "https://wahrxfkhhjpcrrjxtgna.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndhaHJ4ZmtoaGpwY3Jyanh0Z25hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0OTMxNjEsImV4cCI6MjA5NDA2OTE2MX0.kEN0PcoFJIc3Wrjvu2qlGvFZ3fZjcxgNumQaTa5b-BE";
 
 const sb = {
   headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}`, "Content-Type": "application/json", "Prefer": "return=representation" },
@@ -548,25 +548,31 @@ function LoginPage({onLogin}) {
   const [erro, setErro] = useState("");
 
   // Demo users para testar sem Supabase
-  const DEMO_USERS = [
+  const BASE_USERS = [
     { email:"admin@ceballos.com",    senha:"admin123",    perfil:"admin",    nome:"Eng. Sergio Cardoso",  pedreira_id:null, pedreira_nome:"Todas" },
     { email:"gerente@pedreira1.com", senha:"gerente123",  perfil:"gerente",  nome:"Gerente Teste 01",     pedreira_id:"p1", pedreira_nome:"Pedreira Teste 01" },
     { email:"operador@pedreira1.com",senha:"operador123", perfil:"operador", nome:"Operador Teste 01",    pedreira_id:"p1", pedreira_nome:"Pedreira Teste 01" },
-    // Usuarios cadastrados pelo admin ficam aqui via localStorage
-    ...(()=>{ try{ return JSON.parse(localStorage.getItem("maintenpro_users")||"[]"); }catch{ return []; } })(),
   ];
+
+  const getAllUsers = () => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("maintenpro_users")||"[]");
+      return [...BASE_USERS, ...saved];
+    } catch { return BASE_USERS; }
+  };
 
   const handleLogin = async () => {
     if(!email||!senha) return;
     setLoading(true); setErro("");
 
-    // 1. Verifica se email existe nos usuarios demo
-    const demoByEmail = DEMO_USERS.find(u=>u.email===email);
-    if(demoByEmail){
-      // Email encontrado  -  verifica senha
-      if(demoByEmail.senha===senha){
+    // 1. Busca em todos os usuarios (base + cadastrados)
+    const todosUsers = getAllUsers();
+    const encontrado = todosUsers.find(u=>u.email===email);
+
+    if(encontrado){
+      if(encontrado.senha===senha){
         setLoading(false);
-        onLogin(demoByEmail);
+        onLogin(encontrado);
         return;
       } else {
         setErro("Senha incorreta. Verifique e tente novamente.");
@@ -575,7 +581,7 @@ function LoginPage({onLogin}) {
       }
     }
 
-    // 2. Tenta Supabase se nao for usuario demo
+    // 2. Tenta Supabase se nao encontrou localmente
     try {
       const res = await sb.login(email,senha);
       if(res.access_token){
@@ -586,7 +592,6 @@ function LoginPage({onLogin}) {
         setErro("Email ou senha incorretos. Verifique seus dados.");
       }
     } catch {
-      // Supabase nao configurado  -  usuario nao e demo
       setErro("Email nao encontrado. Verifique o email digitado.");
     }
     setLoading(false);
@@ -705,7 +710,6 @@ function AdminUsuarios() {
 
   const cadastrar = () => {
     if(!form.nome||!form.email||!form.senha||!form.pedreira) return;
-    // Salva no localStorage para persistir entre sessoes
     const novoUser = {
       id: Date.now().toString(36),
       nome: form.nome,
@@ -717,13 +721,16 @@ function AdminUsuarios() {
       pedreira_nome: pedreiras[form.pedreira]||form.pedreira,
       ativo: true,
     };
-    const novosUsuarios = [...usuarios, novoUser];
-    setUsuarios(novosUsuarios);
-    // Salva no localStorage para login funcionar
+    // Atualiza lista visual
+    setUsuarios(prev=>[...prev, novoUser]);
+    // Salva no localStorage para login funcionar em qualquer dispositivo
     try {
       const saved = JSON.parse(localStorage.getItem("maintenpro_users")||"[]");
-      localStorage.setItem("maintenpro_users", JSON.stringify([...saved, novoUser]));
-    } catch {}
+      // Evita duplicatas
+      const semDuplicata = saved.filter(u=>u.email!==novoUser.email);
+      localStorage.setItem("maintenpro_users", JSON.stringify([...semDuplicata, novoUser]));
+      console.log("Usuario salvo:", novoUser.email);
+    } catch(e) { console.error("Erro ao salvar usuario:", e); }
     setForm({nome:"",email:"",senha:"",perfil:"operador",pedreira:""});
     setModal(false);
   };
@@ -1331,6 +1338,47 @@ function FormInspecao({user, records, setRecords, onBack}) {
         {st==="saving"&&<Spin/>}{st==="ok"&&<IcoCheck s={16}/>}
         {st==="saving"?"Salvando...":st==="ok"?"Inspecao Registrada!":"Registrar Inspecao"}
       </Btn>
+
+      {st==="ok"&&(
+        <div style={{marginTop:10}}>
+          <Btn onClick={()=>{
+            const itensOk    = Object.entries(f.itens).filter(([,v])=>v==="OK").length;
+            const itensX     = Object.entries(f.itens).filter(([,v])=>v==="X").length;
+            const itensNA    = Object.entries(f.itens).filter(([,v])=>v==="N/A").length;
+            const resCor     = f.resultado==="Conforme"?"verde":f.resultado==="Atencao"?"amarelo":"vermelho";
+            let msg = "*INSPECAO REGISTRADA*
+";
+            msg += "========================
+";
+            msg += `*Equipamento:* ${eq?.nome||f.equipamento}
+`;
+            msg += `*Codigo:* ${eq?.codigo||""}
+`;
+            msg += `*Inspetor:* ${f.inspector}
+`;
+            msg += `*Data:* ${new Date(f.inicio).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit",hour:"2-digit",minute:"2-digit"})}
+`;
+            if(f.horimetro) msg += `*Horimetro:* ${f.horimetro}h
+`;
+            msg += "------------------------
+";
+            msg += `*Resultado:* ${f.resultado} (${resCor})
+`;
+            msg += `*Itens OK:* ${itensOk}  |  *Nao Conforme:* ${itensX}  |  *N/A:* ${itensNA}
+`;
+            if(f.observacoes) msg += `
+*Anomalias:* ${f.observacoes}
+`;
+            msg += "------------------------
+";
+            msg += "_Ceballos MaintenPro_";
+            window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank");
+          }} full color="#25D366">
+            <svg width={16} height={16} viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Enviar pelo WhatsApp
+          </Btn>
+        </div>
+      )}
     </div>
   );
 }
@@ -1438,6 +1486,49 @@ function FormOS({user, ordens, setOrdens, onBack}) {
         {st==="saving"&&<Spin/>}{st==="ok"&&<IcoCheck s={16}/>}
         {st==="saving"?"Salvando...":st==="ok"?"OS Aberta!":"Abrir Ordem de Servico"}
       </Btn>
+
+      {st==="ok"&&(
+        <div style={{marginTop:10}}>
+          <Btn onClick={()=>{
+            const priorEmoji = f.prioridade==="Emergencia"?"[EMERGENCIA]":f.prioridade==="Alta"?"[ALTA]":f.prioridade==="Media"?"[MEDIA]":"[BAIXA]";
+            let msg = "*ORDEM DE SERVICO ABERTA*
+";
+            msg += "========================
+";
+            msg += `*OS:* OS-${Date.now().toString(36).toUpperCase().slice(-6)}
+`;
+            msg += `*Prioridade:* ${priorEmoji} ${f.prioridade}
+`;
+            msg += `*Equipamento:* ${eq?.nome||f.equipamento}
+`;
+            msg += `*Codigo:* ${eq?.codigo||""}
+`;
+            msg += `*Tipo:* ${f.tipo}
+`;
+            msg += "------------------------
+";
+            msg += `*Servico:* ${f.descricao}
+`;
+            msg += `*Tecnico:* ${f.tecnico}
+`;
+            if(f.dataPrevisao) msg += `*Previsao:* ${new Date(f.dataPrevisao).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit",hour:"2-digit",minute:"2-digit"})}
+`;
+            if(f.pecas) msg += `*Pecas:* ${f.pecas}
+`;
+            if(f.observacoes) msg += `*Obs:* ${f.observacoes}
+`;
+            msg += "------------------------
+";
+            msg += `*Solicitado por:* ${f.tecnico}
+`;
+            msg += "_Ceballos MaintenPro_";
+            window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank");
+          }} full color="#25D366">
+            <svg width={16} height={16} viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Enviar pelo WhatsApp
+          </Btn>
+        </div>
+      )}
     </div>
   );
 }
