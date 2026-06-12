@@ -2392,6 +2392,7 @@ export default function App() {
   const [records, setRecords] = useState([]);
   const [ordens, setOrdens]   = useState([]);
   const [tab, setTab]         = useState("novo");
+  const [tipoReg, setTipoReg] = useState("manutencao");
   const [adminTab, setAdminTab] = useState("pedreiras");
   const [tick, setTick]       = useState(new Date());
 
@@ -2486,7 +2487,8 @@ export default function App() {
         {user.perfil==="operador"&&(
           <div style={{display:"flex",background:"#091420",borderRadius:10,padding:3,border:`1.5px solid ${C.border}`}}>
             <button style={tabB("novo","Registrar",<IcoPlus s={13}/>)} onClick={()=>setTab("novo")}><IcoPlus s={13}/>Registrar</button>
-            <button style={tabB("historico","Historico",<IcoList s={13}/>)} onClick={()=>setTab("historico")}><IcoList s={13}/>Historico ({records.length})</button>
+            <button style={tabB("os","OS",<IcoList s={13}/>)} onClick={()=>setTab("os")}><IcoList s={13}/>OS</button>
+            <button style={tabB("historico","Historico",<IcoList s={13}/>)} onClick={()=>setTab("historico")}><IcoList s={13}/>Historico</button>
           </div>
         )}
       </div>
@@ -2517,9 +2519,9 @@ export default function App() {
               <SeletorTipo
                 tipo={tab==="inspecao_form"?"inspecao":tab==="os_form"?"os":"manutencao"}
                 onChange={t=>{
-                  if(t==="os") setTab("os_form");
-                  else if(t==="inspecao") setTab("inspecao_form");
-                  else setTab("novo");
+                  if(t==="os"){ setTab("os_form"); }
+                  else if(t==="inspecao"){ setTab("inspecao_form"); }
+                  else{ setTab("novo"); }
                 }}
               />
             )}
